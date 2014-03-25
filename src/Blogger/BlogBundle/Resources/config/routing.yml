@@ -30,3 +30,10 @@ BloggerBlogBundle_comment_create:
     requirements:
         _method:  POST
         blog_id: \d+
+
+BloggerBlogBundle_category_show:
+    pattern: /{slug}
+    defaults: { _controller: BloggerBlogBundle:Category:show }
+    requirements:
+        _method:  GET
+        id: \d+

@@ -72,6 +72,12 @@ class Blog {
     protected $slug;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="posts")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    protected $category_id;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -331,5 +337,28 @@ class Blog {
         }
 
         return $text;
+    }
+
+    /**
+     * Set category_id
+     *
+     * @param \Blogger\BlogBundle\Entity\Category $categoryId
+     * @return Blog
+     */
+    public function setCategoryId(\Blogger\BlogBundle\Entity\Category $categoryId = null)
+    {
+        $this->category_id = $categoryId;
+
+        return $this;
+    }
+
+    /**
+     * Get category_id
+     *
+     * @return \Blogger\BlogBundle\Entity\Category 
+     */
+    public function getCategoryId()
+    {
+        return $this->category_id;
     }
 }

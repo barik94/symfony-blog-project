@@ -194,6 +194,17 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         }
         not_BloggerBlogBundle_comment_create:
 
+        // BloggerBlogBundle_category_show
+        if (preg_match('#^/(?P<slug>[^/]++)$#s', $pathinfo, $matches)) {
+            if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                $allow = array_merge($allow, array('GET', 'HEAD'));
+                goto not_BloggerBlogBundle_category_show;
+            }
+
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerBlogBundle_category_show')), array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\CategoryController::showAction',));
+        }
+        not_BloggerBlogBundle_category_show:
+
         // _welcome
         if (rtrim($pathinfo, '/') === '') {
             if (substr($pathinfo, -1) !== '/') {

@@ -26,7 +26,7 @@ class PageController extends Controller
             ->getLatestBlogs();
 
         return $this->render('BloggerBlogBundle:Page:index.html.twig', array(
-            'blogs' => $blogs
+            'blogs' => $blogs,
         ));
     }
 
@@ -76,10 +76,12 @@ class PageController extends Controller
 
         $latestComments = $em->getRepository('BloggerBlogBundle:Comment')->getLatestComments($commentLimit);
 
+        $categories = $em->getRepository('BloggerBlogBundle:Category')->getAllCategories();
 
         return $this->render('BloggerBlogBundle:Page:sidebar.html.twig', array(
             'latestComments'    => $latestComments,
-            'tags'              => $tagWeights
+            'tags'              => $tagWeights,
+            'categories' => $categories
         ));
     }
 }

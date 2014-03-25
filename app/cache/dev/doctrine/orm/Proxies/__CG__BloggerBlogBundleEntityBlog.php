@@ -64,10 +64,10 @@ class Blog extends \Blogger\BlogBundle\Entity\Blog implements \Doctrine\ORM\Prox
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'title', 'author', 'blog', 'image', 'tags', 'comments', 'created', 'updated', 'slug');
+            return array('__isInitialized__', 'id', 'title', 'author', 'blog', 'image', 'tags', 'comments', 'created', 'updated', 'slug', 'category_id');
         }
 
-        return array('__isInitialized__', 'id', 'title', 'author', 'blog', 'image', 'tags', 'comments', 'created', 'updated', 'slug');
+        return array('__isInitialized__', 'id', 'title', 'author', 'blog', 'image', 'tags', 'comments', 'created', 'updated', 'slug', 'category_id');
     }
 
     /**
@@ -428,6 +428,28 @@ class Blog extends \Blogger\BlogBundle\Entity\Blog implements \Doctrine\ORM\Prox
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'slugify', array($text));
 
         return parent::slugify($text);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setCategoryId(\Blogger\BlogBundle\Entity\Category $categoryId = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCategoryId', array($categoryId));
+
+        return parent::setCategoryId($categoryId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCategoryId()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCategoryId', array());
+
+        return parent::getCategoryId();
     }
 
 }

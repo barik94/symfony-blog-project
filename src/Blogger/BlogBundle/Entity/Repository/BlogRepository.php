@@ -73,4 +73,17 @@ class BlogRepository extends EntityRepository
 
         return $tagWeights;
     }
+
+    public function getPostsForCategory($categoryId)
+    {
+
+        $neededPosts = $this->createQueryBuilder('c')
+            ->select('c')
+            ->where('c.category_id = :categoryId')
+            ->setParameter('categoryId', $categoryId)
+            ->addOrderBy('c.created', 'DESC');
+
+        return $neededPosts->getQuery()
+            ->getResult();
+    }
 }
