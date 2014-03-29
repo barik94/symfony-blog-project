@@ -32,8 +32,16 @@ BloggerBlogBundle_comment_create:
         blog_id: \d+
 
 BloggerBlogBundle_category_show:
-    pattern: /{slug}
+    pattern: /category/{slug}
     defaults: { _controller: BloggerBlogBundle:Category:show }
     requirements:
         _method:  GET
-        id: \d+
+
+BloggerBlogBundle_onTag_show:
+    pattern: /tag/{slug}
+    defaults: { _controller: BloggerBlogBundle:Tag:onTag }
+    requirements:
+        _method:  GET
+
+
+

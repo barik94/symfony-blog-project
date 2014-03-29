@@ -68,9 +68,7 @@ class PageController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $tags = $em->getRepository('BloggerBlogBundle:Blog')->getTags();
-
-        $tagWeights = $em->getRepository('BloggerBlogBundle:Blog')->getTagWeights($tags);
+        $tagWeights = $em->getRepository('BloggerBlogBundle:Tag')->getTagWeights();
 
         $commentLimit = $this->container ->getParameter('blogger_blog.comments.latest_comment_limit');
 

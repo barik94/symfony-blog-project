@@ -1,0 +1,6 @@
+{% extends 'BloggerBlogBundle::Page/index.html.twig' %}
+
+{% block body %}
+    <h1>Blogs on tag - "{{ tags.name }}"</h1>
+    {{ parent(tags) }}
+{% endblock %}

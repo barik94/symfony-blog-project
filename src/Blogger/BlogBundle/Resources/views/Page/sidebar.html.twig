@@ -1,5 +1,18 @@
 <section class="section">
     <header>
+        <h3>LogIn</h3>
+    </header>
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <p>{{ app.user.username }},  autorization finished succesfully.</p>
+        <p><a href="{{ path('BloggerAdminBundle_homepage') }}">Go to admin panel.</a></p>
+        <p><a href="{{ path('logout') }}">Log out</a></p>
+    {% else %}
+        <p><a href="{{ path('login') }}">Log in</a></p>
+    {% endif %}
+</section>
+
+<section class="section">
+    <header>
         <h3>Categories</h3>
     </header>
     <p>
@@ -16,8 +29,8 @@
         <h3>Tag Cloud</h3>
     </header>
     <p class="tags">
-        {% for tag, weight in tags %}
-            <span class="weight-{{ weight }}">{{ tag }}</span>
+        {% for tag in tags %}
+            <a href="{{ path('BloggerBlogBundle_onTag_show', {'slug': tag.slug}) }}" style="font-size:{{ tag.weight }}px">{{ tag.name }}</a>
         {% else %}
             <p>There are no tags</p>
         {% endfor %}

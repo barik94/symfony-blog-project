@@ -16,7 +16,7 @@ class CategoryRepository extends EntityRepository
     {
         $fullCategories = $this->createQueryBuilder('c')
             ->select('c')
-           // ->where('c.quantOfPosts != ?0')
+            ->where('c.quantOfPosts != 0')
             ->addOrderBy('c.catName', 'ASC');
 
         return $fullCategories->getQuery()

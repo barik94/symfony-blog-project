@@ -64,10 +64,10 @@ class Blog extends \Blogger\BlogBundle\Entity\Blog implements \Doctrine\ORM\Prox
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'title', 'author', 'blog', 'image', 'tags', 'comments', 'created', 'updated', 'slug', 'category_id');
+            return array('__isInitialized__', 'id', 'title', 'author', 'blog', 'image', 'tags', 'tagString', 'comments', 'created', 'updated', 'slug', 'category');
         }
 
-        return array('__isInitialized__', 'id', 'title', 'author', 'blog', 'image', 'tags', 'comments', 'created', 'updated', 'slug', 'category_id');
+        return array('__isInitialized__', 'id', 'title', 'author', 'blog', 'image', 'tags', 'tagString', 'comments', 'created', 'updated', 'slug', 'category');
     }
 
     /**
@@ -433,23 +433,56 @@ class Blog extends \Blogger\BlogBundle\Entity\Blog implements \Doctrine\ORM\Prox
     /**
      * {@inheritDoc}
      */
-    public function setCategoryId(\Blogger\BlogBundle\Entity\Category $categoryId = NULL)
+    public function setCategory(\Blogger\BlogBundle\Entity\Category $categoryId = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCategoryId', array($categoryId));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCategory', array($categoryId));
 
-        return parent::setCategoryId($categoryId);
+        return parent::setCategory($categoryId);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getCategoryId()
+    public function getCategory()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCategoryId', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCategory', array());
 
-        return parent::getCategoryId();
+        return parent::getCategory();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addTag(\Blogger\BlogBundle\Entity\Tag $tags)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addTag', array($tags));
+
+        return parent::addTag($tags);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeTag(\Blogger\BlogBundle\Entity\Tag $tags)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeTag', array($tags));
+
+        return parent::removeTag($tags);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTagsAsString()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTagsAsString', array());
+
+        return parent::getTagsAsString();
     }
 
 }

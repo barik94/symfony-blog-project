@@ -1,0 +1,5 @@
+BloggerAdminBundle_homepage:
+    pattern:  /
+    defaults: { _controller: BloggerAdminBundle:Page:index }
+    requirements:
+       _method:  GET

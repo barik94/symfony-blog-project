@@ -19,14 +19,14 @@ class CategoryFixtures extends AbstractFixture implements OrderedFixtureInterfac
     {
         $category1 = new Category();
         $category1->setcatName('Sport');
-        $category1->setQuantOfPosts(1);
+        $category1->setQuantOfPosts(3);
         $category1->setSlug('sport');
         $category1->setIsDefault(0);
         $manager->persist($category1);
 
         $category2 = new Category();
         $category2->setcatName('News');
-        $category2->setQuantOfPosts(3);
+        $category2->setQuantOfPosts(1);
         $category2->setSlug('news');
         $category2->setIsDefault(1);
         $manager->persist($category2);

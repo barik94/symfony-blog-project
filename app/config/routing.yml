@@ -1,3 +1,15 @@
-blogger_blog:
+BloggerBlogBundle:
     resource: "@BloggerBlogBundle/Resources/config/routing.yml"
     prefix:   /
+
+BloggerAdminBundle:
+    resource: "@BloggerAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+login:
+    path:     /login
+    defaults: { _controller: BloggerAdminBundle:Security:autorization }
+logout:
+    path:     /logout
+login_check:
+    path: /login_check
