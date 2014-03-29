@@ -20,7 +20,7 @@ class PageController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()
-            ->getEntityManager();
+            ->getManager();
 
         $blogs = $em->getRepository('BloggerBlogBundle:Blog')
             ->getLatestBlogs();
@@ -66,7 +66,7 @@ class PageController extends Controller
 
     public function sidebarAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $tagWeights = $em->getRepository('BloggerBlogBundle:Tag')->getTagWeights();
 

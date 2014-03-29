@@ -219,20 +219,34 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         }
         not_BloggerBlogBundle_onTag_show:
 
-        // BloggerAdminBundle_homepage
-        if (rtrim($pathinfo, '/') === '/admin') {
-            if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
-                $allow = array_merge($allow, array('GET', 'HEAD'));
-                goto not_BloggerAdminBundle_homepage;
-            }
+        if (0 === strpos($pathinfo, '/admin')) {
+            // BloggerAdminBundle_homepage
+            if (rtrim($pathinfo, '/') === '/admin') {
+                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'HEAD'));
+                    goto not_BloggerAdminBundle_homepage;
+                }
 
-            if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'BloggerAdminBundle_homepage');
-            }
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'BloggerAdminBundle_homepage');
+                }
 
-            return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\PageController::indexAction',  '_route' => 'BloggerAdminBundle_homepage',);
+                return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\PageController::indexAction',  '_route' => 'BloggerAdminBundle_homepage',);
+            }
+            not_BloggerAdminBundle_homepage:
+
+            // BloggerAdminBundle_edit_post
+            if (0 === strpos($pathinfo, '/admin/edit-post') && preg_match('#^/admin/edit\\-post/(?P<blog_id>\\d+)$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                    goto not_BloggerAdminBundle_edit_post;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_edit_post')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\PostController::editPostAction',));
+            }
+            not_BloggerAdminBundle_edit_post:
+
         }
-        not_BloggerAdminBundle_homepage:
 
         if (0 === strpos($pathinfo, '/log')) {
             // login

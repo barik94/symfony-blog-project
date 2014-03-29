@@ -3,3 +3,10 @@ BloggerAdminBundle_homepage:
     defaults: { _controller: BloggerAdminBundle:Page:index }
     requirements:
        _method:  GET
+
+BloggerAdminBundle_edit_post:
+    pattern:  /edit-post/{blog_id}
+    defaults: { _controller: BloggerAdminBundle:Post:editPost }
+    requirements:
+      _method:  GET|POST
+      blog_id: \d+

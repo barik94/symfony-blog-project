@@ -14,7 +14,7 @@ class PageController extends Controller
 {
     public function indexAction()
     {
-       /* $em = $this->getDoctrine()
+        $em = $this->getDoctrine()
             ->getEntityManager();
 
         $blogs = $em->getRepository('BloggerBlogBundle:Blog')
@@ -22,9 +22,6 @@ class PageController extends Controller
 
         return $this->render('BloggerAdminBundle:Page:index.html.twig', array(
             'blogs' => $blogs,
-        ));*/
-        return $this->render('BloggerAdminBundle:Page:index.html.twig',array(
-            'name' => "blogs"
         ));
     }
-} 
+}
