@@ -235,16 +235,30 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             }
             not_BloggerAdminBundle_homepage:
 
-            // BloggerAdminBundle_edit_post
-            if (0 === strpos($pathinfo, '/admin/edit-post') && preg_match('#^/admin/edit\\-post/(?P<blog_id>\\d+)$#s', $pathinfo, $matches)) {
-                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
-                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
-                    goto not_BloggerAdminBundle_edit_post;
-                }
+            if (0 === strpos($pathinfo, '/admin/edit-post')) {
+                // BloggerAdminBundle_edit_post
+                if (preg_match('#^/admin/edit\\-post/(?P<blog_id>\\d+)$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                        goto not_BloggerAdminBundle_edit_post;
+                    }
 
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_edit_post')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\PostController::editPostAction',));
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_edit_post')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\PostController::editPostAction',));
+                }
+                not_BloggerAdminBundle_edit_post:
+
+                // BloggerAdminBundle_submitEdition
+                if (0 === strpos($pathinfo, '/admin/edit-post/submit') && preg_match('#^/admin/edit\\-post/submit/(?P<blog_id>\\d+)$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                        goto not_BloggerAdminBundle_submitEdition;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_submitEdition')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\PostController::submitEditionAction',));
+                }
+                not_BloggerAdminBundle_submitEdition:
+
             }
-            not_BloggerAdminBundle_edit_post:
 
         }
 

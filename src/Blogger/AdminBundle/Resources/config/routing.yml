@@ -10,3 +10,10 @@ BloggerAdminBundle_edit_post:
     requirements:
       _method:  GET|POST
       blog_id: \d+
+
+BloggerAdminBundle_submitEdition:
+    pattern:  /edit-post/submit/{blog_id}
+    defaults: { _controller: BloggerAdminBundle:Post:submitEdition }
+    requirements:
+      _method:  GET|POST
+      blog_id: \d+

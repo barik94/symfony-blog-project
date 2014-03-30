@@ -50,4 +50,19 @@ class BlogRepository extends EntityRepository
         return $qb->getQuery()
             ->getResult();
     }
+
+    public function getQuantityOfPostsInCategory($category)
+    {
+        $categories = array();
+        $categories[] = $category->getId();
+        $categories = array_merge($categories, $category);
+
+        $qb = $this->createQueryBuilder('p')
+            ->select('count(p)')
+            ->innerJoin('p.category','c')
+            ->where('p.category in (:ids)')
+            ->setParameter('ids', $categories);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

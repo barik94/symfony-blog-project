@@ -1,6 +1,6 @@
 {% block body %}
 
-    <form action="{{ path('BloggerAdminBundle_edit_post', { 'blog_id' : blog.id }) }}"  {{ form_enctype(form) }} class="blogger">
+    <form action="{{ path('BloggerAdminBundle_submitEdition', { 'blog_id': blog.id }) }}"  {{ form_enctype(form) }} class="blogger">
         {{ form_errors(form) }}
 
         {{ form_row(form.title) }}
@@ -10,6 +10,6 @@
 
         {{ form_rest(form) }}
 
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Save" />
     </form>
 {% endblock %}

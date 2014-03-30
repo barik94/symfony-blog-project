@@ -2,5 +2,5 @@
 
 {% block body %}
     <h1>Editing {{ blog.title }} </h1>
-    {% include 'BloggerAdminBundle:Post:form.html.twig' with { 'form': form } %}
+    {{ render(controller('BloggerAdminBundle:Post:edit', {'blog_id': blog.id } )) }}
 {% endblock %}

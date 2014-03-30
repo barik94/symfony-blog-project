@@ -30,4 +30,15 @@ class CategoryRepository extends EntityRepository
             ->setParameter('slug', $slug);
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function getQuantityOfPostsInAllCategories()
+    {
+        $categories = $this->getAllCategories();
+
+        foreach ($categories as $category) {
+            $em = $this->getEntityManager();
+            $category->setQuantOfPosts($em->getRepository('BloggerBlogBundle:Blog')->getQuantityOfPostsInCategory($category));
+        }
+
+    }
 }

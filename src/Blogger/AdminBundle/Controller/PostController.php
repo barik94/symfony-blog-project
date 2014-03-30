@@ -8,14 +8,14 @@
 
 namespace Blogger\AdminBundle\Controller;
 
-use Blogger\BlogBundle\Entity\Blog;
 use Blogger\AdminBundle\Form\EditPostType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\BrowserKit\Request;
 
 class PostController extends Controller
 {
-    public function editPostAction($blog_id)
+    public function editAction($blog_id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -26,24 +26,52 @@ class PostController extends Controller
         }
         $form = $this->createForm(new EditPostType(), $blog);
 
-        $request = $this->getRequest();
-        if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+        return $this->render('BloggerAdminBundle:Post:form.html.twig', array(
+            'form' => $form->createView(),
+            'blog' => $blog
+        ));
+    }
 
-            if ($form->isValid()) {
-                // Perform some action, such as sending an email
+    public function editPostAction($blog_id)
+    {
+        $em = $this->getDoctrine()->getManager();
 
-                // Redirect - This is important to prevent users re-posting
-                // the form if they refresh the page
-                return $this->redirect($this->generateUrl('BloggerAdminBundle_edit_post', array(
-                    'blog_id' => $blog->getId()
-                )));
-            }
+        $blog = $em->getRepository('BloggerBlogBundle:Blog')->find($blog_id);
+
+        if (!$blog) {
+            throw $this->createNotFoundException('Unable to find Blog post.');
         }
 
         return $this->render('BloggerAdminBundle:Post:editPost.html.twig', array(
-            'form' => $form->createView(),
             'blog' => $blog
+        ));
+    }
+
+    public function submitEditionAction( $blog_id)
+    {
+        $em = $this->getDoctrine()
+            ->getManager();
+        $blog = $em->getRepository('BloggerBlogBundle:Blog')->find($blog_id);
+
+        //var_dump($request); die;
+        $form  = $this->createForm(new EditPostType(), $blog);
+        $form->submit($this->getRequest());
+
+        if ($form->isValid()) {
+
+            $em = $this->getDoctrine()
+                ->getManager();
+
+            $em->persist($blog);
+            $em->getRepository('BloggerBlogBundle:Category')->getQuantityOfPostsInAllCategories();
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('BloggerAdminBundle_homepage'));
+        }
+
+        return $this->render('BloggerAdminBundle:Post:form.html.twig', array(
+            'blog' => $blog,
+            'form' => $form->createView(),
         ));
     }
 }
