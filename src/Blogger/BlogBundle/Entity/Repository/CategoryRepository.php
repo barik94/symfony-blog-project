@@ -14,12 +14,23 @@ class CategoryRepository extends EntityRepository
 {
     public function getAllCategories()
     {
-        $fullCategories = $this->createQueryBuilder('c')
+        $qb = $this->createQueryBuilder('c')
             ->select('c')
             ->where('c.quantOfPosts != 0')
+            ->orWhere('c.isDefault = 1')
             ->addOrderBy('c.catName', 'ASC');
 
-        return $fullCategories->getQuery()
+        return $qb->getQuery()
+            ->getResult();
+    }
+
+    public function getAllAndEvenEmptyCategories()
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('c')
+            ->addOrderBy('c.catName', 'ASC');
+
+        return $qb->getQuery()
             ->getResult();
     }
 
@@ -33,7 +44,7 @@ class CategoryRepository extends EntityRepository
 
     public function getQuantityOfPostsInAllCategories()
     {
-        $categories = $this->getAllCategories();
+        $categories = $this->getAllAndEvenEmptyCategories();
 
         foreach ($categories as $category) {
             $em = $this->getEntityManager();

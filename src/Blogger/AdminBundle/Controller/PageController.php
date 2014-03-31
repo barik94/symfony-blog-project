@@ -21,7 +21,7 @@ class PageController extends Controller
             ->getLatestBlogs();
 
         return $this->render('BloggerAdminBundle:Page:index.html.twig', array(
-            'blogs' => $blogs,
+            'blogs' => $blogs
         ));
     }
 }

@@ -260,6 +260,31 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
             }
 
+            if (0 === strpos($pathinfo, '/admin/create')) {
+                // BloggerAdminBundle_create_new_post
+                if ($pathinfo === '/admin/create') {
+                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                        goto not_BloggerAdminBundle_create_new_post;
+                    }
+
+                    return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\PostController::createAction',  '_route' => 'BloggerAdminBundle_create_new_post',);
+                }
+                not_BloggerAdminBundle_create_new_post:
+
+                // BloggerAdminBundle_save_new_post
+                if ($pathinfo === '/admin/create/save') {
+                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                        goto not_BloggerAdminBundle_save_new_post;
+                    }
+
+                    return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\PostController::submitCreatingAction',  '_route' => 'BloggerAdminBundle_save_new_post',);
+                }
+                not_BloggerAdminBundle_save_new_post:
+
+            }
+
         }
 
         if (0 === strpos($pathinfo, '/log')) {

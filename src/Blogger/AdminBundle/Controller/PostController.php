@@ -9,9 +9,9 @@
 namespace Blogger\AdminBundle\Controller;
 
 use Blogger\AdminBundle\Form\EditPostType;
+use Blogger\BlogBundle\Entity\Blog;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\BrowserKit\Request;
 
 class PostController extends Controller
 {
@@ -28,7 +28,8 @@ class PostController extends Controller
 
         return $this->render('BloggerAdminBundle:Post:form.html.twig', array(
             'form' => $form->createView(),
-            'blog' => $blog
+            'blog' => $blog,
+            'create' => false
         ));
     }
 
@@ -47,13 +48,12 @@ class PostController extends Controller
         ));
     }
 
-    public function submitEditionAction( $blog_id)
+    public function submitEditionAction($blog_id)
     {
         $em = $this->getDoctrine()
             ->getManager();
         $blog = $em->getRepository('BloggerBlogBundle:Blog')->find($blog_id);
 
-        //var_dump($request); die;
         $form  = $this->createForm(new EditPostType(), $blog);
         $form->submit($this->getRequest());
 
@@ -63,6 +63,8 @@ class PostController extends Controller
                 ->getManager();
 
             $em->persist($blog);
+            $em->flush();
+
             $em->getRepository('BloggerBlogBundle:Category')->getQuantityOfPostsInAllCategories();
             $em->flush();
 
@@ -72,6 +74,52 @@ class PostController extends Controller
         return $this->render('BloggerAdminBundle:Post:form.html.twig', array(
             'blog' => $blog,
             'form' => $form->createView(),
+            'create' => false
+        ));
+    }
+
+    public function addPostAction()
+    {
+        return $this->render('BloggerAdminBundle:Post:addPost.html.twig');
+    }
+
+    public function createAction()
+    {
+        $form = $this->createForm(new EditPostType());
+
+        return $this->render('BloggerAdminBundle:Post:form.html.twig', array(
+            'form' => $form->createView(),
+            'create' => true
+        ));
+    }
+
+    public function submitCreatingAction()
+    {
+        $em = $this->getDoctrine()
+            ->getManager();
+        $blog = new Blog();
+
+        $form  = $this->createForm(new EditPostType(), $blog);
+        $form->submit($this->getRequest());
+
+        if ($form->isValid()) {
+
+            $em = $this->getDoctrine()
+                ->getManager();
+            $blog->setAuthor($this->getUser());
+            $em->persist($blog);
+            $em->flush();
+
+            $em->getRepository('BloggerBlogBundle:Category')->getQuantityOfPostsInAllCategories();
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('BloggerAdminBundle_homepage'));
+        }
+
+        return $this->render('BloggerAdminBundle:Post:form.html.twig', array(
+            'blog' => $blog,
+            'form' => $form->createView(),
+            'create' => true
         ));
     }
 }

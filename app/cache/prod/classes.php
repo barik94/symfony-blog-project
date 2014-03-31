@@ -2381,6 +2381,36 @@ return array($controller, $method);
 }
 namespace Symfony\Component\Security\Http
 {
+use Symfony\Component\HttpFoundation\Request;
+interface AccessMapInterface
+{
+public function getPatterns(Request $request);
+}
+}
+namespace Symfony\Component\Security\Http
+{
+use Symfony\Component\HttpFoundation\RequestMatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
+class AccessMap implements AccessMapInterface
+{
+private $map = array();
+public function add(RequestMatcherInterface $requestMatcher, array $attributes = array(), $channel = null)
+{
+$this->map[] = array($requestMatcher, $attributes, $channel);
+}
+public function getPatterns(Request $request)
+{
+foreach ($this->map as $elements) {
+if (null === $elements[0] || $elements[0]->matches($request)) {
+return array($elements[1], $elements[2]);
+}
+}
+return array(null, null);
+}
+}
+}
+namespace Symfony\Component\Security\Http
+{
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
@@ -2844,7 +2874,7 @@ namespace
 {
 class Twig_Environment
 {
-const VERSION ='1.15.0';
+const VERSION ='1.15.1';
 protected $charset;
 protected $loader;
 protected $debug;
@@ -3744,7 +3774,7 @@ return mt_rand();
 if (is_int($values) || is_float($values)) {
 return $values < 0 ? mt_rand($values, 0) : mt_rand(0, $values);
 }
-if (is_object($values) && $values instanceof Traversable) {
+if ($values instanceof Traversable) {
 $values = iterator_to_array($values);
 } elseif (is_string($values)) {
 if (''=== $values) {
@@ -3798,14 +3828,15 @@ $defaultTimezone = new DateTimeZone($timezone);
 } else {
 $defaultTimezone = $timezone;
 }
-if ($date instanceof DateTime || $date instanceof DateTimeInterface) {
-$returningDate = new DateTime($date->format('c'));
-if (false !== $timezone) {
-$returningDate->setTimezone($defaultTimezone);
-} else {
-$returningDate->setTimezone($date->getTimezone());
+if ($date instanceof DateTimeImmutable) {
+return false !== $timezone ? $date->setTimezone($defaultTimezone) : $date;
 }
-return $returningDate;
+if ($date instanceof DateTime || $date instanceof DateTimeInterface) {
+$date = clone $date;
+if (false !== $timezone) {
+$date->setTimezone($defaultTimezone);
+}
+return $date;
 }
 $asString = (string) $date;
 if (ctype_digit($asString) || (!empty($asString) &&'-'=== $asString[0] && ctype_digit(substr($asString, 1)))) {
@@ -3887,7 +3918,7 @@ return array_merge($arr1, $arr2);
 }
 function twig_slice(Twig_Environment $env, $item, $start, $length = null, $preserveKeys = false)
 {
-if (is_object($item) && $item instanceof Traversable) {
+if ($item instanceof Traversable) {
 $item = iterator_to_array($item, false);
 }
 if (is_array($item)) {
@@ -3911,7 +3942,7 @@ return is_string($elements) ? $elements : current($elements);
 }
 function twig_join_filter($value, $glue ='')
 {
-if (is_object($value) && $value instanceof Traversable) {
+if ($value instanceof Traversable) {
 $value = iterator_to_array($value, false);
 }
 return implode($glue, (array) $value);
@@ -3976,7 +4007,7 @@ if (!strlen($value)) {
 return empty($compare);
 }
 return false !== strpos($compare, (string) $value);
-} elseif (is_object($compare) && $compare instanceof Traversable) {
+} elseif ($compare instanceof Traversable) {
 return in_array($value, iterator_to_array($compare, false), is_object($value));
 }
 return false;
@@ -4212,6 +4243,8 @@ return $value instanceof Traversable || is_array($value);
 }
 function twig_include(Twig_Environment $env, $context, $template, $variables = array(), $withContext = true, $ignoreMissing = false, $sandboxed = false)
 {
+$alreadySandboxed = false;
+$sandbox = null;
 if ($withContext) {
 $variables = array_merge($context, $variables);
 }
@@ -4245,7 +4278,7 @@ return constant($constant);
 }
 function twig_array_batch($items, $size, $fill = null)
 {
-if (is_object($items) && $items instanceof Traversable) {
+if ($items instanceof Traversable) {
 $items = iterator_to_array($items, false);
 }
 $size = ceil($size);
@@ -4430,7 +4463,6 @@ throw new Twig_Error_Runtime(sprintf('The template has no parent and no traits d
 public function displayBlock($name, array $context, array $blocks = array())
 {
 $name = (string) $name;
-$template = null;
 if (isset($blocks[$name])) {
 $template = $blocks[$name][0];
 $block = $blocks[$name][1];
@@ -4438,6 +4470,9 @@ unset($blocks[$name]);
 } elseif (isset($this->blocks[$name])) {
 $template = $this->blocks[$name][0];
 $block = $this->blocks[$name][1];
+} else {
+$template = null;
+$block = null;
 }
 if (null !== $template) {
 try {
@@ -4540,15 +4575,18 @@ return false;
 if ($ignoreStrictCheck || !$this->env->isStrictVariables()) {
 return null;
 }
-if (is_object($object)) {
-throw new Twig_Error_Runtime(sprintf('Key "%s" in object (with ArrayAccess) of type "%s" does not exist', $arrayItem, get_class($object)), -1, $this->getTemplateName());
+if ($object instanceof ArrayAccess) {
+$message = sprintf('Key "%s" in object with ArrayAccess of class "%s" does not exist', $arrayItem, get_class($object));
+} elseif (is_object($object)) {
+$message = sprintf('Impossible to access a key "%s" on an object of class "%s" that does not implement ArrayAccess interface', $item, get_class($object));
 } elseif (is_array($object)) {
-throw new Twig_Error_Runtime(sprintf('Key "%s" for array with keys "%s" does not exist', $arrayItem, implode(', ', array_keys($object))), -1, $this->getTemplateName());
+$message = sprintf('Key "%s" for array with keys "%s" does not exist', $arrayItem, implode(', ', array_keys($object)));
 } elseif (Twig_Template::ARRAY_CALL === $type) {
-throw new Twig_Error_Runtime(sprintf('Impossible to access a key ("%s") on a %s variable ("%s")', $item, gettype($object), $object), -1, $this->getTemplateName());
+$message = sprintf('Impossible to access a key ("%s") on a %s variable ("%s")', $item, gettype($object), $object);
 } else {
-throw new Twig_Error_Runtime(sprintf('Impossible to access an attribute ("%s") on a %s variable ("%s")', $item, gettype($object), $object), -1, $this->getTemplateName());
+$message = sprintf('Impossible to access an attribute ("%s") on a %s variable ("%s")', $item, gettype($object), $object);
 }
+throw new Twig_Error_Runtime($message, -1, $this->getTemplateName());
 }
 }
 if (!is_object($object)) {

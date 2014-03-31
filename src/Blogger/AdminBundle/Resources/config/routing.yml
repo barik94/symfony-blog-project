@@ -4,6 +4,7 @@ BloggerAdminBundle_homepage:
     requirements:
        _method:  GET
 
+########### Work with posts #############
 BloggerAdminBundle_edit_post:
     pattern:  /edit-post/{blog_id}
     defaults: { _controller: BloggerAdminBundle:Post:editPost }
@@ -17,3 +18,15 @@ BloggerAdminBundle_submitEdition:
     requirements:
       _method:  GET|POST
       blog_id: \d+
+
+BloggerAdminBundle_create_new_post:
+    pattern:  /create
+    defaults: { _controller: BloggerAdminBundle:Post:create }
+    requirements:
+      _method: GET|POST
+
+BloggerAdminBundle_save_new_post:
+    pattern: /create/save
+    defaults: { _controller: BloggerAdminBundle:Post:submitCreating }
+    requirements:
+      _method: GET|POST

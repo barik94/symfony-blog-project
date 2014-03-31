@@ -18,8 +18,8 @@ class EditPostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('title','text');
-        $builder->add('author');
         $builder->add('category');
+        $builder->add('image','text');
         $builder->add('blog', 'textarea');
     }
 

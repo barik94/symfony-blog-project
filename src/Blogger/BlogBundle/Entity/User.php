@@ -65,6 +65,11 @@ class User implements UserInterface, \Serializable
         // $this->salt = md5(uniqid(null, true));
     }
 
+    public function __toString()
+    {
+        return $this->getUsername();
+    }
+
     /**
      * @inheritDoc
      */

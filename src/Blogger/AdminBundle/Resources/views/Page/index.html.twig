@@ -1,10 +1,18 @@
 {% extends 'BloggerAdminBundle::layout.html.twig' %}
 
 {% block body %}
+    <p style="font-size: 20px; font-weight: bold; text-align: right"><a href="{{ path('BloggerAdminBundle_create_new_post') }}">+Add Post</a></p>
     {% for blog in blogs %}
         <article class="blog">
             <div class="date"><time datetime="{{ blog.created|date('c') }}">{{ blog.created|date('l, F j, Y') }}</time></div>
-            <p style="font-size: 18px; font-family: 'Comic Sans MS'">Title: <span style="font-weight: bold">{{ blog.title }}</span> <span style="color: orange; font-style: italic"><a href="{{ path('BloggerAdminBundle_edit_post', { 'blog_id' : blog.id }) }}">(edit)</a></span></p>
+
+            {% set rights = (app.user.username == blog.author or app.user.username == 'admin') %}
+            {% if rights  %}
+                <p style="font-size: 18px; font-family: 'Comic Sans MS'">Title: <span style="font-weight: bold">{{ blog.title }}</span> <span style="color: orange; font-style: italic"><a href="{{ path('BloggerAdminBundle_edit_post', { 'blog_id' : blog.id }) }}">(edit)</a></span></p>
+            {% else %}
+                <p style="font-size: 18px; font-family: 'Comic Sans MS'">Title: <span style="font-weight: bold">{{ blog.title }}</span></p>
+            {% endif %}
+
             <footer class="meta">
                 <p>Comments: {{ blog.comments|length }}</p>
                 <p>Posted by {{ blog.author }} at {{ blog.created|date('h:iA') }}</p>

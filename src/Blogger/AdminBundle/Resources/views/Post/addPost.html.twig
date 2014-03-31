@@ -1,0 +1,6 @@
+{% extends 'BloggerAdminBundle::layout.html.twig' %}
+
+{% block body %}
+    <h1>Adding the new post </h1>
+    {{ render(controller('BloggerAdminBundle:Post:create' )) }}
+{% endblock %}

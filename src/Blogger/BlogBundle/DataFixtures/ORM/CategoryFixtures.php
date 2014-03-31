@@ -38,11 +38,19 @@ class CategoryFixtures extends AbstractFixture implements OrderedFixtureInterfac
         $category3->setIsDefault(0);
         $manager->persist($category3);
 
+        $category4 = new Category();
+        $category4->setCatName('Movie');
+        $category4->setQuantOfPosts(0);
+        $category4->setSlug('movie');
+        $category4->setIsDefault(0);
+        $manager->persist($category4);
+
         $manager->flush();
 
         $this->addReference('category-1', $category1);
         $this->addReference('category-2', $category2);
         $this->addReference('category-3', $category3);
+        $this->addReference('category-4', $category4);
     }
 
     public function getOrder()

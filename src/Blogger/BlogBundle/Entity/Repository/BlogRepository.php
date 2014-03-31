@@ -53,15 +53,12 @@ class BlogRepository extends EntityRepository
 
     public function getQuantityOfPostsInCategory($category)
     {
-        $categories = array();
-        $categories[] = $category->getId();
-        $categories = array_merge($categories, $category);
 
         $qb = $this->createQueryBuilder('p')
             ->select('count(p)')
             ->innerJoin('p.category','c')
-            ->where('p.category in (:ids)')
-            ->setParameter('ids', $categories);
+            ->where('p.category in (:id)')
+            ->setParameter('id', $category);
 
         return $qb->getQuery()->getSingleScalarResult();
     }
