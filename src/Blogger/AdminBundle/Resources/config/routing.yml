@@ -21,7 +21,7 @@ BloggerAdminBundle_submitEdition:
 
 BloggerAdminBundle_create_new_post:
     pattern:  /create
-    defaults: { _controller: BloggerAdminBundle:Post:create }
+    defaults: { _controller: BloggerAdminBundle:Post:addPost }
     requirements:
       _method: GET|POST
 
@@ -30,3 +30,38 @@ BloggerAdminBundle_save_new_post:
     defaults: { _controller: BloggerAdminBundle:Post:submitCreating }
     requirements:
       _method: GET|POST
+
+BloggerAdminBundle_delete_post:
+    pattern:  /deleting/{blogId}
+    defaults: { _controller: BloggerAdminBundle:Post:delete }
+    requirements:
+      _method:  GET|POST
+      blog_id: \d+
+
+################ Work with tags ##############
+BloggerAdminBundle_edit_tags:
+    pattern:  /managing-tags
+    defaults: { _controller: BloggerAdminBundle:Tag:managingTags }
+    requirements:
+      _method: GET
+
+BloggerAdminBundle_edit_concrete_tag:
+    pattern:  /managing-tags/{tagId}
+    defaults: { _controller: BloggerAdminBundle:Tag:editTag }
+    requirements:
+      _method:  GET|POST
+      blog_id: \d+
+
+BloggerAdminBundle_submitTagEdition:
+    pattern:  /managing-tags/submit/{tagId}
+    defaults: { _controller: BloggerAdminBundle:Tag:submitEdition }
+    requirements:
+      _method:  GET|POST
+      blog_id: \d+
+
+############# Administration error############
+BloggerAdminBundle_get_rights_error:
+    pattern:  /err
+    defaults: { _controller: BloggerAdminBundle:Page:rightsError }
+    requirements:
+      _method: GET

@@ -1,0 +1,14 @@
+{% block body %}
+
+    <form action=" {{ path('BloggerAdminBundle_submitTagEdition', { 'tagId': tag.id }) }} "  {{ form_enctype(form) }} class="blogger">
+
+        {{ form_errors(form) }}
+
+        {{ form_row(form.name) }}
+        {{ form_row(form.slug) }}
+
+        {{ form_rest(form) }}
+
+        <input type="submit" value="Save" />
+    </form>
+{% endblock %}

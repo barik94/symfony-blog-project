@@ -1,6 +1,6 @@
 {% block body %}
 
-    <form action="{% if create %}{{ path('BloggerAdminBundle_save_new_post') }}{% else %}{{ path('BloggerAdminBundle_submitEdition', { 'blog_id': blog.id }) }}{% endif %}"  {{ form_enctype(form) }} class="blogger">
+    <form action="{% if isCreate %}{{ path('BloggerAdminBundle_save_new_post') }}{% else %}{{ path('BloggerAdminBundle_submitEdition', { 'blog_id': blog.id }) }}{% endif %}"  {{ form_enctype(form) }} class="blogger">
 
         {{ form_errors(form) }}
 

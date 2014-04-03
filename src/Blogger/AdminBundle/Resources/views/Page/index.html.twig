@@ -2,7 +2,7 @@
 
 {% block body %}
     <p style="font-size: 20px; font-weight: bold; text-align: right"><a href="{{ path('BloggerAdminBundle_create_new_post') }}">+Add Post</a></p>
-    {% for blog in blogs %}
+    {% for blog in pagination %}
         <article class="blog">
             <div class="date"><time datetime="{{ blog.created|date('c') }}">{{ blog.created|date('l, F j, Y') }}</time></div>
 
@@ -16,11 +16,19 @@
             <footer class="meta">
                 <p>Comments: {{ blog.comments|length }}</p>
                 <p>Posted by {{ blog.author }} at {{ blog.created|date('h:iA') }}</p>
-                <p>Tags: <span class="highlight">{{ blog.tagsAsString }}</span></p>
+                <p>Tags: <span class="highlight">{{ blog.tagsAsString }}</p> </span>
+                {% if rights  %}
+                    <p style="font-size: 15px; color: orange; font-weight: bold; text-align: right"> <a href="{{ path ('BloggerAdminBundle_delete_post', { 'blogId': blog.id } ) }}">- Delete post</a></p>
+                {% endif %}
+
             </footer>
         </article>
     {% else %}
         <p>There are no blog entries for symblog</p>
     {% endfor %}
+
+    <div style="text-align: center; font-size: 18px; font-family: 'Open Sans'; font-weight: bold">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 {% endblock %}
 

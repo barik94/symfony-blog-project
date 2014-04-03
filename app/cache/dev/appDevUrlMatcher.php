@@ -268,7 +268,7 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                         goto not_BloggerAdminBundle_create_new_post;
                     }
 
-                    return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\PostController::createAction',  '_route' => 'BloggerAdminBundle_create_new_post',);
+                    return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\PostController::addPostAction',  '_route' => 'BloggerAdminBundle_create_new_post',);
                 }
                 not_BloggerAdminBundle_create_new_post:
 
@@ -284,6 +284,64 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 not_BloggerAdminBundle_save_new_post:
 
             }
+
+            // BloggerAdminBundle_delete_post
+            if (0 === strpos($pathinfo, '/admin/deleting') && preg_match('#^/admin/deleting/(?P<blogId>[^/]++)$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                    goto not_BloggerAdminBundle_delete_post;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_delete_post')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\PostController::deleteAction',));
+            }
+            not_BloggerAdminBundle_delete_post:
+
+            if (0 === strpos($pathinfo, '/admin/managing-tags')) {
+                // BloggerAdminBundle_edit_tags
+                if ($pathinfo === '/admin/managing-tags') {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_BloggerAdminBundle_edit_tags;
+                    }
+
+                    return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\TagController::managingTagsAction',  '_route' => 'BloggerAdminBundle_edit_tags',);
+                }
+                not_BloggerAdminBundle_edit_tags:
+
+                // BloggerAdminBundle_edit_concrete_tag
+                if (preg_match('#^/admin/managing\\-tags/(?P<tagId>[^/]++)$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                        goto not_BloggerAdminBundle_edit_concrete_tag;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_edit_concrete_tag')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\TagController::editTagAction',));
+                }
+                not_BloggerAdminBundle_edit_concrete_tag:
+
+                // BloggerAdminBundle_submitTagEdition
+                if (0 === strpos($pathinfo, '/admin/managing-tags/submit') && preg_match('#^/admin/managing\\-tags/submit/(?P<tagId>[^/]++)$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                        goto not_BloggerAdminBundle_submitTagEdition;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_submitTagEdition')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\TagController::submitEditionAction',));
+                }
+                not_BloggerAdminBundle_submitTagEdition:
+
+            }
+
+            // BloggerAdminBundle_get_rights_error
+            if ($pathinfo === '/admin/err') {
+                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'HEAD'));
+                    goto not_BloggerAdminBundle_get_rights_error;
+                }
+
+                return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\PageController::rightsErrorAction',  '_route' => 'BloggerAdminBundle_get_rights_error',);
+            }
+            not_BloggerAdminBundle_get_rights_error:
 
         }
 

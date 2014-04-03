@@ -21,12 +21,19 @@ class CategoryController extends Controller{
 
         $blog = $em->getRepository('BloggerBlogBundle:Blog')->getPostsForCategory($category->getId());
 
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $blog,
+            $this->get('request')->query->get('page', 1)/*page number*/,
+            5/*limit per page*/
+        );
+
         if (!$blog) {
             throw $this->createNotFoundException('Unable to find Blog post.');
         }
 
         return $this->render('BloggerBlogBundle:Page:category.html.twig', array(
-            'blogs'      => $blog,
+            'pagination'      => $pagination,
             'category' => $category
         ));
     }

@@ -29,7 +29,7 @@ class PostController extends Controller
         return $this->render('BloggerAdminBundle:Post:form.html.twig', array(
             'form' => $form->createView(),
             'blog' => $blog,
-            'create' => false
+            'isCreate' => false
         ));
     }
 
@@ -74,7 +74,7 @@ class PostController extends Controller
         return $this->render('BloggerAdminBundle:Post:form.html.twig', array(
             'blog' => $blog,
             'form' => $form->createView(),
-            'create' => false
+            'isCreate' => false
         ));
     }
 
@@ -85,18 +85,18 @@ class PostController extends Controller
 
     public function createAction()
     {
-        $form = $this->createForm(new EditPostType());
+        $blog = new Blog();
+
+        $form = $this->createForm(new EditPostType(), $blog);
 
         return $this->render('BloggerAdminBundle:Post:form.html.twig', array(
             'form' => $form->createView(),
-            'create' => true
+            'isCreate' => true
         ));
     }
 
     public function submitCreatingAction()
     {
-        $em = $this->getDoctrine()
-            ->getManager();
         $blog = new Blog();
 
         $form  = $this->createForm(new EditPostType(), $blog);
@@ -119,7 +119,32 @@ class PostController extends Controller
         return $this->render('BloggerAdminBundle:Post:form.html.twig', array(
             'blog' => $blog,
             'form' => $form->createView(),
-            'create' => true
+            'isCreate' => true
         ));
+    }
+
+    public function deleteAction($blogId)
+    {
+        $em =  $this->getDoctrine()
+            ->getManager();
+
+        $blog = $em->getRepository('BloggerBlogBundle:Blog')->find($blogId);
+
+        $comments = $em->getRepository('BloggerBlogBundle:Comment')->getCommentsForBlog($blogId);
+
+       foreach($comments as $comment )
+       {
+           $em->remove($comment);
+           $em->flush();
+       }
+
+        $em->remove($blog);
+
+        $em->flush();
+
+        $em->getRepository('BloggerBlogBundle:Category')->getQuantityOfPostsInAllCategories();
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('BloggerAdminBundle_homepage'));
     }
 }

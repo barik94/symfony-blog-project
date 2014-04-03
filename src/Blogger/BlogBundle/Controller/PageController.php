@@ -25,8 +25,15 @@ class PageController extends Controller
         $blogs = $em->getRepository('BloggerBlogBundle:Blog')
             ->getLatestBlogs();
 
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $blogs,
+            $this->get('request')->query->get('page', 1)/*page number*/,
+            5/*limit per page*/
+        );
+
         return $this->render('BloggerBlogBundle:Page:index.html.twig', array(
-            'blogs' => $blogs,
+            'pagination' => $pagination
         ));
     }
 

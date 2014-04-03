@@ -1,0 +1,40 @@
+<div style="background-color: lightskyblue; height: 18px; width: 200px">
+    <a href="{{ path('BloggerBlogBundle_homepage') }}"> <span style="font-size: 14px; font-weight: bold"><-Back to the site homepage </span></a>
+</div>
+
+<section class="section">
+    <header style="padding-top: 20px">
+        <h3>Managing</h3>
+    </header>
+
+    {% set rights = (app.user.username == 'admin') %}
+
+    {% if rights %}
+    <p style="font-size: 19px; font-family: 'Lucida Grande'; font-style: italic">
+        <a href="{{ path('BloggerAdminBundle_edit_tags') }}"> Work with tags </a>
+    </p>
+
+    <p style="font-size: 19px; font-family: 'Lucida Grande'; font-style: italic">
+        <a href="#">Work with categories</a>
+    </p>
+
+    <p style="font-size: 19px; font-family: 'Lucida Grande'; font-style: italic">
+        <a href="#">Work with users</a>
+    </p>
+    {% else %}
+    <p style="font-size: 19px; font-family: 'Lucida Grande'; font-style: italic">
+        <a href="{{ path('BloggerAdminBundle_get_rights_error') }}"> Work with tags </a>
+    </p>
+
+    <p style="font-size: 19px; font-family: 'Lucida Grande'; font-style: italic">
+        <a href="{{ path('BloggerAdminBundle_get_rights_error') }}"> Work with categories </a>
+    </p>
+
+    <p style="font-size: 19px; font-family: 'Lucida Grande'; font-style: italic">
+        <a href="{{ path('BloggerAdminBundle_get_rights_error') }}"> Work with users </a>
+    </p>
+    {% endif %}
+
+
+
+</section>

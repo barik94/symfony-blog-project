@@ -25,23 +25,12 @@ class TagRepository extends EntityRepository
 
     public function getTags()
     {
-        $blogTags = $this->createQueryBuilder('b')
-            ->select('b.tags')
-            ->getQuery()
+        $qb = $this->createQueryBuilder('b')
+            ->select('b')
+            ->addOrderBy('b.name', 'ASC');
+
+        return $qb->getQuery()
             ->getResult();
-
-        $tags = array();
-        foreach ($blogTags as $blogTag)
-        {
-            $tags = array_merge(explode(",", $blogTag['tags']), $tags);
-        }
-
-        foreach ($tags as &$tag)
-        {
-            $tag = trim($tag);
-        }
-
-        return $tags;
     }
 
     public function getTagWeights()

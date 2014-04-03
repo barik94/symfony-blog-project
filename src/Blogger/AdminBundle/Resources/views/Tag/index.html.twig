@@ -1,0 +1,19 @@
+{% extends 'BloggerAdminBundle::layout.html.twig' %}
+
+{% block body %}
+    {% for tag in pagination %}
+        <article class="date">
+            <div style="font-size: 18px">
+                <span style="font-weight: bold; color: #0000BB">Name:</span> <span style="color: orange"><a href="{{ path('BloggerAdminBundle_edit_concrete_tag', {'tagId' : tag.id}) }}">{{ tag.name }}</a>  </span>
+            </div>
+
+            <footer style="font-size: 14px"> <span style="font-weight: bold; color: #0000BB">
+                    Slug:</span> {{ tag.slug }}
+            </footer>
+        </article>
+    {% endfor %}
+
+    <div style="text-align: center; font-size: 18px; font-family: 'Open Sans'; font-weight: bold">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

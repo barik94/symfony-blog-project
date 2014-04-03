@@ -1,0 +1,6 @@
+{% extends 'BloggerAdminBundle::layout.html.twig' %}
+
+{% block body %}
+    <h1>Editing {{ tag.name }} </h1>
+    {{ render(controller('BloggerAdminBundle:Tag:edit', {'tagId': tag.id } )) }}
+{% endblock %}

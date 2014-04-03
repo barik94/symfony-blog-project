@@ -3,7 +3,7 @@
 {% extends 'BloggerBlogBundle::layout.html.twig' %}
 
 {% block body %}
-    {% for blog in blogs %}
+    {% for blog in pagination %}
         <article class="blog">
             <div class="date"><time datetime="{{ blog.created|date('c') }}">{{ blog.created|date('l, F j, Y') }}</time></div>
             <header>
@@ -25,4 +25,9 @@
     {% else %}
         <p>There are no blog entries for symblog</p>
     {% endfor %}
+
+    <div style="text-align: center; font-size: 18px; font-family: 'Open Sans'; font-weight: bold">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 {% endblock %}
+
