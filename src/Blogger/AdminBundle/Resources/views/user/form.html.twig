@@ -1,0 +1,16 @@
+{% block body %}
+
+    <form action="{{ path('BloggerAdminBundle_submitUserInfoEdition', { 'userId': user.id }) }}"  {{ form_enctype(form) }} class="blogger">
+
+        {{ form_errors(form) }}
+
+        {{ form_row(form.username) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.roles) }}
+        {{ form_row(form.password) }}
+
+        {{ form_rest(form) }}
+
+        <input type="submit" value="Save" />
+    </form>
+{% endblock %}

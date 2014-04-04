@@ -36,7 +36,7 @@ BloggerAdminBundle_delete_post:
     defaults: { _controller: BloggerAdminBundle:Post:delete }
     requirements:
       _method:  GET|POST
-      blog_id: \d+
+      blogId: \d+
 
 ################ Work with tags ##############
 BloggerAdminBundle_edit_tags:
@@ -50,14 +50,14 @@ BloggerAdminBundle_edit_concrete_tag:
     defaults: { _controller: BloggerAdminBundle:Tag:editTag }
     requirements:
       _method:  GET|POST
-      blog_id: \d+
+      tagId: \d+
 
 BloggerAdminBundle_submitTagEdition:
     pattern:  /managing-tags/submit/{tagId}
     defaults: { _controller: BloggerAdminBundle:Tag:submitEdition }
     requirements:
       _method:  GET|POST
-      blog_id: \d+
+      tagId: \d+
 
 ############# Administration error############
 BloggerAdminBundle_get_rights_error:
@@ -65,3 +65,24 @@ BloggerAdminBundle_get_rights_error:
     defaults: { _controller: BloggerAdminBundle:Page:rightsError }
     requirements:
       _method: GET
+
+############## Work with users ################
+BloggerAdminBundle_edit_users_info:
+    pattern:  /managing-users-info
+    defaults: { _controller: BloggerAdminBundle:User:managingUsersInfo }
+    requirements:
+      _method: GET
+
+BloggerAdminBundle_edit_info_of_concrete_user:
+    pattern:  /managing-users-info/{userId}
+    defaults: { _controller: BloggerAdminBundle:User:editUserInfo }
+    requirements:
+      _method: GET|POST
+      userId: \d+
+
+BloggerAdminBundle_submitUserInfoEdition:
+    pattern:  /managing-users-info/submit/{userId}
+    defaults: { _controller: BloggerAdminBundle:User:submitEdition }
+    requirements:
+      _method:  GET|POST
+      userId: \d+

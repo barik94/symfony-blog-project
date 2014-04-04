@@ -286,7 +286,7 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             }
 
             // BloggerAdminBundle_delete_post
-            if (0 === strpos($pathinfo, '/admin/deleting') && preg_match('#^/admin/deleting/(?P<blogId>[^/]++)$#s', $pathinfo, $matches)) {
+            if (0 === strpos($pathinfo, '/admin/deleting') && preg_match('#^/admin/deleting/(?P<blogId>\\d+)$#s', $pathinfo, $matches)) {
                 if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
                     $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
                     goto not_BloggerAdminBundle_delete_post;
@@ -309,7 +309,7 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 not_BloggerAdminBundle_edit_tags:
 
                 // BloggerAdminBundle_edit_concrete_tag
-                if (preg_match('#^/admin/managing\\-tags/(?P<tagId>[^/]++)$#s', $pathinfo, $matches)) {
+                if (preg_match('#^/admin/managing\\-tags/(?P<tagId>\\d+)$#s', $pathinfo, $matches)) {
                     if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
                         $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
                         goto not_BloggerAdminBundle_edit_concrete_tag;
@@ -320,7 +320,7 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 not_BloggerAdminBundle_edit_concrete_tag:
 
                 // BloggerAdminBundle_submitTagEdition
-                if (0 === strpos($pathinfo, '/admin/managing-tags/submit') && preg_match('#^/admin/managing\\-tags/submit/(?P<tagId>[^/]++)$#s', $pathinfo, $matches)) {
+                if (0 === strpos($pathinfo, '/admin/managing-tags/submit') && preg_match('#^/admin/managing\\-tags/submit/(?P<tagId>\\d+)$#s', $pathinfo, $matches)) {
                     if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
                         $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
                         goto not_BloggerAdminBundle_submitTagEdition;
@@ -342,6 +342,42 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\PageController::rightsErrorAction',  '_route' => 'BloggerAdminBundle_get_rights_error',);
             }
             not_BloggerAdminBundle_get_rights_error:
+
+            if (0 === strpos($pathinfo, '/admin/managing-users-info')) {
+                // BloggerAdminBundle_edit_users_info
+                if ($pathinfo === '/admin/managing-users-info') {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_BloggerAdminBundle_edit_users_info;
+                    }
+
+                    return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\UserController::managingUsersInfoAction',  '_route' => 'BloggerAdminBundle_edit_users_info',);
+                }
+                not_BloggerAdminBundle_edit_users_info:
+
+                // BloggerAdminBundle_edit_info_of_concrete_user
+                if (preg_match('#^/admin/managing\\-users\\-info/(?P<userId>\\d+)$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                        goto not_BloggerAdminBundle_edit_info_of_concrete_user;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_edit_info_of_concrete_user')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\UserController::editUserInfoAction',));
+                }
+                not_BloggerAdminBundle_edit_info_of_concrete_user:
+
+                // BloggerAdminBundle_submitUserInfoEdition
+                if (0 === strpos($pathinfo, '/admin/managing-users-info/submit') && preg_match('#^/admin/managing\\-users\\-info/submit/(?P<userId>\\d+)$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                        goto not_BloggerAdminBundle_submitUserInfoEdition;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_submitUserInfoEdition')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\UserController::submitEditionAction',));
+                }
+                not_BloggerAdminBundle_submitUserInfoEdition:
+
+            }
 
         }
 

@@ -1,0 +1,21 @@
+{% extends 'BloggerAdminBundle::layout.html.twig' %}
+
+{% block body %}
+    {% for user in pagination %}
+        <article class="date">
+            <div style="font-size: 18px">
+                <span style="font-weight: bold; color: #0000BB">UserName:</span> <span style="color: orange"><a href="{{ path('BloggerAdminBundle_edit_info_of_concrete_user', {'userId':user.id}) }}">{{ user.username }}</a>  </span>
+            </div>
+
+            <footer style="font-size: 14px">
+                Roles:{% for role in user.roles %}
+                    <span>{{ role.name  }}</span>
+                {% endfor %}
+            </footer>
+        </article>
+    {% endfor %}
+
+    <div style="text-align: center; font-size: 18px; font-family: 'Open Sans'; font-weight: bold">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

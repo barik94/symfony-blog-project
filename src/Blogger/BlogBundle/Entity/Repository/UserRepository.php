@@ -11,6 +11,15 @@ use Doctrine\ORM\NoResultException;
 
 class UserRepository extends EntityRepository implements UserProviderInterface
 {
+    public function getUsersList()
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->select('u');
+
+        return $qb->getQuery()
+            ->getResult();
+    }
+
     public function loadUserByUsername($username)
     {
         $qb = $this
@@ -57,4 +66,5 @@ class UserRepository extends EntityRepository implements UserProviderInterface
         return $this->getEntityName() === $class
         || is_subclass_of($class, $this->getEntityName());
     }
+
 }
