@@ -9,9 +9,9 @@
 
     {% set rights = (app.user.username == 'admin') %}
 
-    {% if rights %}
+
     <p style="font-size: 19px; font-family: 'Lucida Grande'; font-style: italic">
-        <a href="{{ path('BloggerAdminBundle_edit_tags') }}"> Work with tags </a>
+        <a href="{% if rights %}{{ path('BloggerAdminBundle_edit_tags') }} {% else %}{{ path('BloggerAdminBundle_get_rights_error') }}{% endif %}"> Work with tags </a>
     </p>
 
     <p style="font-size: 19px; font-family: 'Lucida Grande'; font-style: italic">
@@ -19,22 +19,7 @@
     </p>
 
     <p style="font-size: 19px; font-family: 'Lucida Grande'; font-style: italic">
-        <a href="{{ path('BloggerAdminBundle_edit_users_info') }}">Work with users</a>
+        <a href="{% if rights %}{{ path('BloggerAdminBundle_edit_users_info') }} {% else %}{{ path('BloggerAdminBundle_get_rights_error') }}{% endif %}">Work with users</a>
     </p>
-    {% else %}
-    <p style="font-size: 19px; font-family: 'Lucida Grande'; font-style: italic">
-        <a href="{{ path('BloggerAdminBundle_get_rights_error') }}"> Work with tags </a>
-    </p>
-
-    <p style="font-size: 19px; font-family: 'Lucida Grande'; font-style: italic">
-        <a href="{{ path('BloggerAdminBundle_get_rights_error') }}"> Work with categories </a>
-    </p>
-
-    <p style="font-size: 19px; font-family: 'Lucida Grande'; font-style: italic">
-        <a href="{{ path('BloggerAdminBundle_get_rights_error') }}"> Work with users </a>
-    </p>
-    {% endif %}
-
-
 
 </section>

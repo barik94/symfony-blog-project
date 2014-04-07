@@ -379,6 +379,31 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
             }
 
+            if (0 === strpos($pathinfo, '/admin/add-new-user')) {
+                // BloggerAdminBundle_add_new_user
+                if ($pathinfo === '/admin/add-new-user') {
+                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                        goto not_BloggerAdminBundle_add_new_user;
+                    }
+
+                    return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\UserController::addUserAction',  '_route' => 'BloggerAdminBundle_add_new_user',);
+                }
+                not_BloggerAdminBundle_add_new_user:
+
+                // BloggerAdminBundle_submit_adding
+                if ($pathinfo === '/admin/add-new-user/saving') {
+                    if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                        goto not_BloggerAdminBundle_submit_adding;
+                    }
+
+                    return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\UserController::submitAddingAction',  '_route' => 'BloggerAdminBundle_submit_adding',);
+                }
+                not_BloggerAdminBundle_submit_adding:
+
+            }
+
         }
 
         if (0 === strpos($pathinfo, '/log')) {

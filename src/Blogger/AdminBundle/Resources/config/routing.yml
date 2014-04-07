@@ -86,3 +86,15 @@ BloggerAdminBundle_submitUserInfoEdition:
     requirements:
       _method:  GET|POST
       userId: \d+
+
+BloggerAdminBundle_add_new_user:
+    pattern:  /add-new-user
+    defaults: { _controller: BloggerAdminBundle:User:addUser }
+    requirements:
+      _method: GET|POST
+
+BloggerAdminBundle_submit_adding:
+    pattern:  /add-new-user/saving
+    defaults: { _controller: BloggerAdminBundle:User:submitAdding }
+    requirements:
+      _method: GET|POST

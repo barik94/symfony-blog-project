@@ -12,8 +12,29 @@
         <link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet" />
     {% endblock %}
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    <script type="text/javascript">
+        function startTime()
+        {
+            var tm=new Date();
+            var h=tm.getHours();
+            var m=tm.getMinutes();
+            var s=tm.getSeconds();
+            m=checkTime(m);
+            s=checkTime(s);
+            document.getElementById('lab').innerHTML=h+":"+m+":"+s;
+            t=setTimeout('startTime()',500);
+        }
+        function checkTime(i)
+        {
+            if (i<10)
+            {
+                i="0" + i;
+            }
+            return i;
+        }
+    </script>
 </head>
-<body>
+<body onload="startTime()">
 <section id="wrapper">
     <header id="header">
         <hgroup>
@@ -22,13 +43,14 @@
         </hgroup>
     </header>
 
+    <div style="text-align: center; font-family: 'La Belle Aurore', cursive; font-size: 24px; margin-bottom: 20px; font-weight: normal"><span id="lab"></span></div>
+
     <section class="main-col">
         {% block body %}{% endblock %}
     </section>
     <aside class="sidebar">
         {% block sidebar %}{% endblock %}
     </aside>
-
 
     <div id="footer">
         {% block footer %}
