@@ -1,0 +1,20 @@
+{% extends 'BloggerAdminBundle::layout.html.twig' %}
+
+{% block body %}
+    {% for category in pagination %}
+        <article class="date">
+            <div style="font-size: 18px">
+                <span style="font-weight: bold; color: #0000BB">Name:</span> <span style="color: orange"><a href="{{ path('BloggerAdminBundle_edit_concrete_category', {'categoryId' : category.id}) }}">{{ category.catName }}</a>  </span>
+            </div>
+
+            <footer style="font-size: 14px"> <span style="font-weight: bold; color: #0000BB">
+                    Slug:</span> {{ category.slug }}
+                <p style="font-size: 15px; color: orange; font-weight: bold; text-align: right"> <a href="{{ path ('BloggerAdminBundle_delete_category', { 'categoryId': category.id } ) }}">- Delete category</a></p>
+            </footer>
+        </article>
+    {% endfor %}
+
+    <div style="text-align: center; font-size: 18px; font-family: 'Open Sans'; font-weight: bold">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

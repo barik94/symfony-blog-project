@@ -15,7 +15,7 @@
     </p>
 
     <p style="font-size: 19px; font-family: 'Lucida Grande'; font-style: italic">
-        <a href="#">Work with categories</a>
+        <a href="{% if rights %}{{ path('BloggerAdminBundle_edit_categories') }} {% else %}{{ path('BloggerAdminBundle_get_rights_error') }}{% endif %}">Work with categories</a>
     </p>
 
     <p style="font-size: 19px; font-family: 'Lucida Grande'; font-style: italic">

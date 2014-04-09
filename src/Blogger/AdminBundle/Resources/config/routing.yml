@@ -98,3 +98,31 @@ BloggerAdminBundle_submit_adding:
     defaults: { _controller: BloggerAdminBundle:User:submitAdding }
     requirements:
       _method: GET|POST
+
+################ Work with categories ##############
+BloggerAdminBundle_edit_categories:
+    pattern:  /managing-categories
+    defaults: { _controller: BloggerAdminBundle:Category:managingCategories }
+    requirements:
+      _method: GET
+
+BloggerAdminBundle_edit_concrete_category:
+    pattern:  /managing-categories/{categoryId}
+    defaults: { _controller: BloggerAdminBundle:Category:editCategory }
+    requirements:
+      _method:  GET|POST
+      categoryId: \d+
+
+BloggerAdminBundle_submitCategoryEdition:
+    pattern:  /managing-categories/submit/{categoryId}
+    defaults: { _controller: BloggerAdminBundle:Category:submitEdition }
+    requirements:
+      _method:  GET|POST
+      categoryId: \d+
+
+BloggerAdminBundle_delete_category:
+    pattern:  /managing-categories/deleting/{categoryId}
+    defaults: { _controller: BloggerAdminBundle:Category:delete }
+    requirements:
+      _method:  GET|POST
+      categoryId: \d+

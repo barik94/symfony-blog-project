@@ -1,0 +1,6 @@
+{% extends 'BloggerAdminBundle::layout.html.twig' %}
+
+{% block body %}
+    <h1>Editing {{ category.catName }} </h1>
+    {{ render(controller('BloggerAdminBundle:Category:edit', {'categoryId': category.id } )) }}
+{% endblock %}

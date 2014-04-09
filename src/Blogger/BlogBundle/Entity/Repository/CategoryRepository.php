@@ -24,6 +24,16 @@ class CategoryRepository extends EntityRepository
             ->getResult();
     }
 
+    public function getCategories()
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('c')
+            ->addOrderBy('c.catName', 'ASC');
+
+        return $qb->getQuery()
+            ->getResult();
+    }
+
     public function getAllAndEvenEmptyCategories()
     {
         $qb = $this->createQueryBuilder('c')
@@ -51,5 +61,24 @@ class CategoryRepository extends EntityRepository
             $category->setQuantOfPosts($em->getRepository('BloggerBlogBundle:Blog')->getQuantityOfPostsInCategory($category));
         }
 
+    }
+
+    public function isCategoryUnique($name, $slug, $id)
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->select('t')
+            ->where('t.catName = :name')
+            ->orWhere( 't.slug = :slug' )
+            ->andWhere('t.id != :id')
+            ->setParameter('name', $name)
+            ->setParameter('id', $id)
+            ->setParameter('slug', $slug);
+
+        $existsOrNull = $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
+
+        if( $existsOrNull )
+            return false;
+
+        return true;
     }
 }

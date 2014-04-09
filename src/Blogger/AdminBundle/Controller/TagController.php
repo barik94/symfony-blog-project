@@ -46,7 +46,7 @@ class TagController extends Controller
             throw $this->createNotFoundException('Unable to find tag.');
         }
 
-        return $this->render('BloggerAdminBundle:Tag:editTag.html.twig', array(
+        return $this->render('BloggerAdminBundle:Tag:editCategory.html.twig', array(
             'tag' => $tag
         ));
     }
