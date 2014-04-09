@@ -4,7 +4,7 @@
     </header>
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         <p>{{ app.user.username }},  autorization finished succesfully.</p>
-        <p><a href="{{ path('BloggerAdminBundle_homepage') }}">Go to admin panel.</a></p>
+        <p><a href="{{ path('BloggerAdminBundle_homepage', {'userId':app.user.id}) }}">Go to admin panel.</a></p>
         <p><a href="{{ path('logout') }}">Log out</a></p>
     {% else %}
         <p><a href="{{ path('login') }}">Log in</a></p>

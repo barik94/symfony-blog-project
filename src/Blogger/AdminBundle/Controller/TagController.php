@@ -8,7 +8,7 @@
 
 namespace Blogger\AdminBundle\Controller;
 
-
+use Symfony\Component\HttpFoundation\Request;
 use Blogger\AdminBundle\Form\EditTagType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -68,24 +68,35 @@ class TagController extends Controller
         ));
     }
 
-    public function submitEditionAction($tagId)
+    public function submitEditionAction(Request $request, $tagId)
     {
         $em = $this->getDoctrine()
             ->getManager();
         $tag = $em->getRepository('BloggerBlogBundle:Tag')->find($tagId);
 
         $form  = $this->createForm(new EditTagType(), $tag);
-        $form->submit($this->getRequest());
+        $form->submit($request);
 
         if ($form->isValid()) {
 
             $em = $this->getDoctrine()
                 ->getManager();
 
-            $em->persist($tag);
-            $em->flush();
+            $isUnique = $em->getRepository('BloggerBlogBundle:Tag')->isTagUnique($tag->getName(), $tag->getSlug(), $tagId);
 
-            return $this->redirect($this->generateUrl('BloggerAdminBundle_edit_tags'));
+            if( $isUnique )
+            {
+                $em->persist($tag);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('BloggerAdminBundle_edit_tags'));
+            }
+
+
+            $this->get('session')->getFlashBag()
+                ->set('blogger-notice', 'Tag with this name/slug already exists!!!');
+
+            return $this->redirect($this->generateUrl('BloggerAdminBundle_edit_concrete_tag', array('tagId'=>$tagId)));
         }
 
         return $this->render('BloggerAdminBundle:Post:form.html.twig', array(

@@ -91,10 +91,20 @@ class UserController extends Controller{
                 $user->setPassword($password);
             }
 
-            $em->persist($user);
-            $em->flush();
+            $isUnique = $em->getRepository('BloggerBlogBundle:User')->isUserUnique($user->getUsername(), $user->getEmail(), $userId);
 
-            return $this->redirect($this->generateUrl('BloggerAdminBundle_edit_users_info'));
+            if( $isUnique )
+            {
+                $em->persist($user);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('BloggerAdminBundle_edit_users_info'));
+            }
+
+            $this->get('session')->getFlashBag()
+                ->set('blogger-notice', 'User with this name/email already exists!!!');
+
+            return $this->redirect($this->generateUrl('BloggerAdminBundle_edit_info_of_concrete_user', array('userId'=>$userId)));
         }
 
         return $this->render('BloggerAdminBundle:Post:form.html.twig', array(

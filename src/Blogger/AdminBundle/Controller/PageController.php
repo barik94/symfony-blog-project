@@ -8,6 +8,8 @@
 
 namespace Blogger\AdminBundle\Controller;
 
+use Blogger\BlogBundle\Entity\User;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class PageController extends Controller

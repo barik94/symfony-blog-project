@@ -1,5 +1,11 @@
 {% block body %}
 
+    {% for flashMessage in app.session.flashbag.get('blogger-notice') %}
+        <div style="text-align: center; padding: 10px; background: antiquewhite; border: 1px solid; color: #ff0000; margin-bottom: 10px;" >
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
     <form action=" {{ path('BloggerAdminBundle_submitTagEdition', { 'tagId': tag.id }) }} "  {{ form_enctype(form) }} class="blogger">
 
         {{ form_errors(form) }}
