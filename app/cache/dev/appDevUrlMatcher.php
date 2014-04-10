@@ -404,50 +404,89 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
             }
 
-            if (0 === strpos($pathinfo, '/admin/managing-categories')) {
-                // BloggerAdminBundle_edit_categories
-                if ($pathinfo === '/admin/managing-categories') {
-                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
-                        $allow = array_merge($allow, array('GET', 'HEAD'));
-                        goto not_BloggerAdminBundle_edit_categories;
-                    }
-
-                    return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\CategoryController::managingCategoriesAction',  '_route' => 'BloggerAdminBundle_edit_categories',);
-                }
-                not_BloggerAdminBundle_edit_categories:
-
-                // BloggerAdminBundle_edit_concrete_category
-                if (preg_match('#^/admin/managing\\-categories/(?P<categoryId>\\d+)$#s', $pathinfo, $matches)) {
+            if (0 === strpos($pathinfo, '/admin/managing-')) {
+                // BloggerAdminBundle_delete_userInfo
+                if (0 === strpos($pathinfo, '/admin/managing-users-info/deleting') && preg_match('#^/admin/managing\\-users\\-info/deleting/(?P<userId>\\d+)$#s', $pathinfo, $matches)) {
                     if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
                         $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
-                        goto not_BloggerAdminBundle_edit_concrete_category;
+                        goto not_BloggerAdminBundle_delete_userInfo;
                     }
 
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_edit_concrete_category')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\CategoryController::editCategoryAction',));
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_delete_userInfo')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\UserController::deleteAction',));
                 }
-                not_BloggerAdminBundle_edit_concrete_category:
+                not_BloggerAdminBundle_delete_userInfo:
 
-                // BloggerAdminBundle_submitCategoryEdition
-                if (0 === strpos($pathinfo, '/admin/managing-categories/submit') && preg_match('#^/admin/managing\\-categories/submit/(?P<categoryId>\\d+)$#s', $pathinfo, $matches)) {
+                if (0 === strpos($pathinfo, '/admin/managing-categories')) {
+                    // BloggerAdminBundle_edit_categories
+                    if ($pathinfo === '/admin/managing-categories') {
+                        if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                            $allow = array_merge($allow, array('GET', 'HEAD'));
+                            goto not_BloggerAdminBundle_edit_categories;
+                        }
+
+                        return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\CategoryController::managingCategoriesAction',  '_route' => 'BloggerAdminBundle_edit_categories',);
+                    }
+                    not_BloggerAdminBundle_edit_categories:
+
+                    // BloggerAdminBundle_edit_concrete_category
+                    if (preg_match('#^/admin/managing\\-categories/(?P<categoryId>\\d+)$#s', $pathinfo, $matches)) {
+                        if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                            $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                            goto not_BloggerAdminBundle_edit_concrete_category;
+                        }
+
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_edit_concrete_category')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\CategoryController::editCategoryAction',));
+                    }
+                    not_BloggerAdminBundle_edit_concrete_category:
+
+                    // BloggerAdminBundle_submitCategoryEdition
+                    if (0 === strpos($pathinfo, '/admin/managing-categories/submit') && preg_match('#^/admin/managing\\-categories/submit/(?P<categoryId>\\d+)$#s', $pathinfo, $matches)) {
+                        if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                            $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                            goto not_BloggerAdminBundle_submitCategoryEdition;
+                        }
+
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_submitCategoryEdition')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\CategoryController::submitEditionAction',));
+                    }
+                    not_BloggerAdminBundle_submitCategoryEdition:
+
+                    // BloggerAdminBundle_delete_category
+                    if (0 === strpos($pathinfo, '/admin/managing-categories/deleting') && preg_match('#^/admin/managing\\-categories/deleting/(?P<categoryId>\\d+)$#s', $pathinfo, $matches)) {
+                        if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                            $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                            goto not_BloggerAdminBundle_delete_category;
+                        }
+
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_delete_category')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\CategoryController::deleteAction',));
+                    }
+                    not_BloggerAdminBundle_delete_category:
+
+                }
+
+            }
+
+            if (0 === strpos($pathinfo, '/admin/add-new-category')) {
+                // BloggerAdminBundle_add_new_category
+                if ($pathinfo === '/admin/add-new-category') {
                     if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
                         $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
-                        goto not_BloggerAdminBundle_submitCategoryEdition;
+                        goto not_BloggerAdminBundle_add_new_category;
                     }
 
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_submitCategoryEdition')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\CategoryController::submitEditionAction',));
+                    return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\CategoryController::addCategoryAction',  '_route' => 'BloggerAdminBundle_add_new_category',);
                 }
-                not_BloggerAdminBundle_submitCategoryEdition:
+                not_BloggerAdminBundle_add_new_category:
 
-                // BloggerAdminBundle_delete_category
-                if (0 === strpos($pathinfo, '/admin/managing-categories/deleting') && preg_match('#^/admin/managing\\-categories/deleting/(?P<categoryId>\\d+)$#s', $pathinfo, $matches)) {
+                // BloggerAdminBundle_submit_adding_category
+                if ($pathinfo === '/admin/add-new-category/saving') {
                     if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
                         $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
-                        goto not_BloggerAdminBundle_delete_category;
+                        goto not_BloggerAdminBundle_submit_adding_category;
                     }
 
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'BloggerAdminBundle_delete_category')), array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\CategoryController::deleteAction',));
+                    return array (  '_controller' => 'Blogger\\AdminBundle\\Controller\\CategoryController::submitAddingAction',  '_route' => 'BloggerAdminBundle_submit_adding_category',);
                 }
-                not_BloggerAdminBundle_delete_category:
+                not_BloggerAdminBundle_submit_adding_category:
 
             }
 

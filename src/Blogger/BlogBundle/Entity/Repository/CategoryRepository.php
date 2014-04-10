@@ -63,13 +63,13 @@ class CategoryRepository extends EntityRepository
 
     }
 
-    public function isCategoryUnique($name, $slug, $id)
+    public function isCategoryUnique($name, $slug, $id = null)
     {
         $qb = $this->createQueryBuilder('t')
             ->select('t')
             ->where('t.catName = :name')
             ->orWhere( 't.slug = :slug' )
-            ->andWhere('t.id != :id')
+            ->orWhere('t.id != :id')
             ->setParameter('name', $name)
             ->setParameter('id', $id)
             ->setParameter('slug', $slug);

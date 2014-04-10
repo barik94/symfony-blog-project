@@ -17,14 +17,21 @@ class TagController extends Controller
         $em = $this->getDoctrine()->getManager();
         $tag = $em->getRepository('BloggerBlogBundle:Tag')->findBySlug($slug);
 
-        $blog = $em->getRepository('BloggerBlogBundle:Blog')->getPostsOnTag($tag->getId());
+        $blogs = $em->getRepository('BloggerBlogBundle:Blog')->getPostsOnTag($tag->getId());
 
-        if (!$blog) {
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $blogs,
+            $this->get('request')->query->get('page', 1)/*page number*/,
+            5/*limit per page*/
+        );
+
+        if (!$blogs) {
             throw $this->createNotFoundException('Unable to find Blog post.');
         }
 
         return $this->render('BloggerBlogBundle:Page:tag.html.twig', array(
-            'blogs'      => $blog,
+            'pagination'      => $pagination,
             'tags' => $tag
         ));
     }

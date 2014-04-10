@@ -99,6 +99,13 @@ BloggerAdminBundle_submit_adding:
     requirements:
       _method: GET|POST
 
+BloggerAdminBundle_delete_userInfo:
+    pattern:  /managing-users-info/deleting/{userId}
+    defaults: { _controller: BloggerAdminBundle:User:delete }
+    requirements:
+      _method:  GET|POST
+      userId: \d+
+
 ################ Work with categories ##############
 BloggerAdminBundle_edit_categories:
     pattern:  /managing-categories
@@ -126,3 +133,15 @@ BloggerAdminBundle_delete_category:
     requirements:
       _method:  GET|POST
       categoryId: \d+
+
+BloggerAdminBundle_add_new_category:
+    pattern:  /add-new-category
+    defaults: { _controller: BloggerAdminBundle:Category:addCategory }
+    requirements:
+      _method: GET|POST
+
+BloggerAdminBundle_submit_adding_category:
+    pattern:  /add-new-category/saving
+    defaults: { _controller: BloggerAdminBundle:Category:submitAdding }
+    requirements:
+      _method: GET|POST

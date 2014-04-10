@@ -6,7 +6,7 @@
         </div>
     {% endfor %}
 
-    <form action=" {{ path('BloggerAdminBundle_submitCategoryEdition', { 'categoryId': category.id }) }} "  {{ form_enctype(form) }} class="blogger">
+    <form action=" {% if isAdding %}{{ path('BloggerAdminBundle_submit_adding_category')}}{% else %}{{ path('BloggerAdminBundle_submitCategoryEdition', { 'categoryId': category.id }) }} {% endif %}"  {{ form_enctype(form) }} class="blogger">
 
         {{ form_errors(form) }}
 

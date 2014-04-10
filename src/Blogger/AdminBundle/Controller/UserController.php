@@ -149,19 +149,40 @@ class UserController extends Controller{
                 $user->setPassword($password);
             }
 
-            $em->persist($user);
-            $em->flush();
+            $isUnique = $em->getRepository('BloggerBlogBundle:User')->isUserUnique($user->getUsername(), $user->getEmail());
 
-            $em->getRepository('BloggerBlogBundle:Category')->getQuantityOfPostsInAllCategories();
-            $em->flush();
+            if( $isUnique )
+            {
+                $em->persist($user);
+                $em->flush();
 
-            return $this->redirect($this->generateUrl('BloggerAdminBundle_homepage'));
+                return $this->redirect($this->generateUrl('BloggerAdminBundle_homepage'));
+            }
+
+            $this->get('session')->getFlashBag()
+                ->set('blogger-notice', 'User with this name/email already exists!!!');
+
+            return $this->redirect($this->generateUrl('BloggerAdminBundle_add_new_user'));
         }
 
-        return $this->render('BloggerAdminBundle:Post:form.html.twig', array(
+        return $this->render('BloggerAdminBundle:User:form.html.twig', array(
             'user' => $user,
             'form' => $form->createView(),
             'isAdding' => true
         ));
+    }
+
+    public function deleteAction($userId)
+    {
+        $em =  $this->getDoctrine()
+            ->getManager();
+
+        $user = $em->getRepository('BloggerBlogBundle:User')->find($userId);
+
+        $em->remove($user);
+
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('BloggerAdminBundle_homepage'));
     }
 } 

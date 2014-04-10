@@ -12,6 +12,7 @@
                 Roles:{% for role in user.roles %}
                     <span>{{ role.name  }}</span>
                 {% endfor %}
+                <p style="font-size: 15px; color: orange; font-weight: bold; text-align: right"> <a href="{{ path ('BloggerAdminBundle_delete_userInfo', { 'userId': user.id } ) }}">- Delete this user</a></p>
             </footer>
         </article>
     {% endfor %}

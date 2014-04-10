@@ -11,7 +11,7 @@ namespace Blogger\AdminBundle\Controller;
 
 use Blogger\AdminBundle\Form\EditCategoryType;
 
-use Blogger\BlogBundle\Entity\Blog;
+use Blogger\BlogBundle\Entity\Category;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -67,7 +67,8 @@ class CategoryController extends Controller{
 
         return $this->render('BloggerAdminBundle:Category:form.html.twig', array(
             'form' => $form->createView(),
-            'category' => $category
+            'category' => $category,
+            'isAdding' => false
         ));
     }
 
@@ -104,7 +105,8 @@ class CategoryController extends Controller{
 
         return $this->render('BloggerAdminBundle:Category:form.html.twig', array(
             'category' => $category,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'isAdding' => false
         ));
     }
 
@@ -133,4 +135,58 @@ class CategoryController extends Controller{
 
         return $this->redirect($this->generateUrl('BloggerAdminBundle_homepage'));
     }
-} 
+
+    public function addCategoryAction()
+    {
+        return $this->render('BloggerAdminBundle:Category:addCategory.html.twig');
+    }
+
+    public function addAction()
+    {
+        $user = new Category();
+
+        $form = $this->createForm(new EditCategoryType(), $user);
+
+        return $this->render('BloggerAdminBundle:Category:form.html.twig', array(
+            'form' => $form->createView(),
+            'isAdding' => true
+        ));
+    }
+
+    public function submitAddingAction(Request $request)
+    {
+        $category = new Category();
+
+        $form  = $this->createForm(new EditCategoryType(), $category);
+        $form->submit($request);
+
+        if ($form->isValid()) {
+
+            $em = $this->getDoctrine()
+                ->getManager();
+
+            $isUnique = $em->getRepository('BloggerBlogBundle:Category')->isCategoryUnique($category->getCatName(), $category->getSlug());
+
+            if( $isUnique )
+            {
+                $category->setQuantOfPosts(0);
+                $em->persist($category);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('BloggerAdminBundle_homepage'));
+
+            }
+
+            $this->get('session')->getFlashBag()
+                ->set('blogger-notice', 'Category with this title/slug already exists!!!');
+
+            return $this->redirect($this->generateUrl('BloggerAdminBundle_add_new_category'));
+        }
+
+        return $this->render('BloggerAdminBundle:Category:form.html.twig', array(
+            'category' => $category,
+            'form' => $form->createView(),
+            'isAdding' => true
+        ));
+    }
+}

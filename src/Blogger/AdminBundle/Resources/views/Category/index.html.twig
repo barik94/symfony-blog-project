@@ -1,6 +1,7 @@
 {% extends 'BloggerAdminBundle::layout.html.twig' %}
 
 {% block body %}
+    <p style="font-size: 20px; font-weight: bold; text-align: right"><a href="{{ path('BloggerAdminBundle_add_new_category') }}">+Add new category</a></p>
     {% for category in pagination %}
         <article class="date">
             <div style="font-size: 18px">
