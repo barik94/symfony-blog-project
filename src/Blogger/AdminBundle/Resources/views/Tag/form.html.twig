@@ -1,3 +1,5 @@
+{% extends 'BloggerAdminBundle::layout.html.twig' %}
+
 {% block body %}
 
     {% for flashMessage in app.session.flashbag.get('blogger-notice') %}

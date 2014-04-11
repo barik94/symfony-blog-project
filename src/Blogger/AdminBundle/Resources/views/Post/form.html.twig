@@ -1,6 +1,7 @@
-{% block body %}
+{% extends 'BloggerAdminBundle::layout.html.twig' %}
 
-    <form action="{% if isCreate %}{{ path('BloggerAdminBundle_save_new_post') }}{% else %}{{ path('BloggerAdminBundle_submitEdition', { 'blog_id': blog.id }) }}{% endif %}"  {{ form_enctype(form) }} class="blogger">
+{% block body %}
+    <form novalidate="novalidate" action="{% if isCreate %}{{ path('BloggerAdminBundle_save_new_post') }}{% else %}{{ path('BloggerAdminBundle_submitEdition', { 'blog_id': blog.id }) }}{% endif %}"  {{ form_enctype(form) }} class="blogger">
 
         {{ form_errors(form) }}
 

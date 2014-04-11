@@ -11,6 +11,10 @@ namespace Blogger\BlogBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
+
 /**
  * @ORM\Entity(repositoryClass="Blogger\BlogBundle\Entity\Repository\BlogRepository")
  * @ORM\Table(name="blog")
@@ -400,5 +404,18 @@ class Blog {
             $tagNameArray[] = $tag->getName();
         }
         return implode(", ", $tagNameArray);
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('title', new NotBlank());
+        $metadata->addPropertyConstraint('title', new Length(array('max'=>255)));
+
+        $metadata->addPropertyConstraint('image', new NotBlank());
+
+        $metadata->addPropertyConstraint('blog', new NotBlank());
+        $metadata->addPropertyConstraint('blog', new Length(array('min'=>50)));
+
+        $metadata->addPropertyConstraint('category', new NotBlank());
     }
 }

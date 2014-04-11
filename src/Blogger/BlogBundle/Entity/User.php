@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Email;
+
 /**
  * @ORM\Entity(repositoryClass="Blogger\BlogBundle\Entity\Repository\UserRepository")
  * @ORM\Table(name="user")
@@ -275,4 +280,19 @@ class User implements UserInterface, \Serializable
         $this->roles->removeElement($roles);
     }
 
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('username', new NotBlank());
+        $metadata->addPropertyConstraint('username', new Length(array('max'=>15)));
+
+        $metadata->addPropertyConstraint('email', new Email(array(
+            'message' => 'Symblog does not like invalid emails. Give me a real one!'
+        )));
+
+        $metadata->addPropertyConstraint('roles', new NotBlank());
+
+        $metadata->addPropertyConstraint('password', new NotBlank());
+        $metadata->addPropertyConstraint('password', new Length(array('min'=>4)));
+
+    }
 }

@@ -107,7 +107,7 @@ class UserController extends Controller{
             return $this->redirect($this->generateUrl('BloggerAdminBundle_edit_info_of_concrete_user', array('userId'=>$userId)));
         }
 
-        return $this->render('BloggerAdminBundle:Post:form.html.twig', array(
+        return $this->render('BloggerAdminBundle:User:form.html.twig', array(
             'user' => $user,
             'form' => $form->createView(),
             'isAdding' => false

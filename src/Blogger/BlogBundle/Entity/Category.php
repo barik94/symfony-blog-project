@@ -11,6 +11,10 @@ namespace Blogger\BlogBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
+
 /**
  * @ORM\Entity(repositoryClass="Blogger\BlogBundle\Entity\Repository\CategoryRepository")
  * @ORM\Table(name="Category")
@@ -198,5 +202,14 @@ class Category {
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('catName', new NotBlank());
+        $metadata->addPropertyConstraint('catName', new Length(array('max'=>15)));
+
+        $metadata->addPropertyConstraint('slug', new NotBlank());
+        $metadata->addPropertyConstraint('slug', new Length(array('max'=>15)));
     }
 }
