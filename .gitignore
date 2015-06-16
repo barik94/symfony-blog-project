@@ -1,12 +1,35 @@
-/web/bundles/
-/app/bootstrap.php.cache
-/app/cache/*
-/app/config/parameters.yml
-/app/logs/*
-!app/cache/.gitkeep
-!app/logs/.gitkeep
-/build/
-/vendor/
-/bin/
-/composer.phar
+#Storm directory
+.idea/
+
+# Composer
+composer.phar
+
+# Configuration files
+app/config/parameters.yml
+app/config/*.local.yml
+app/config/deploy.rb
 behat.yml
+
+#Web directories
+web/bundles/*
+web/css/*
+web/js/*
+web/assets/compiled/*
+web/media/*
+web/uploads/*
+
+#Sylius directories
+app/*\.cache
+app/cache/*
+
+app/logs/*
+bin/behat
+bin/doctrine*
+bin/phpspec
+bin/webunit
+bin/phpunit
+bin/phpcrodm
+bin/phpcrodm.php
+bin/jackalope
+bin/phpunit
+vendor/*
