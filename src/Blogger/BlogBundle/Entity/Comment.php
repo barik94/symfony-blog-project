@@ -62,14 +62,6 @@ class Comment
     }
 
     /**
-     * @ORM\preUpdate
-     */
-    public function setUpdatedValue()
-    {
-        $this->setUpdated(new \DateTime());
-    }
-
-    /**
      * Get id
      *
      * @return integer 
