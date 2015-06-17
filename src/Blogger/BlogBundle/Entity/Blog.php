@@ -1,16 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: BARIK
- * Date: 17.03.14
- * Time: 16:33
- */
 
 namespace Blogger\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;

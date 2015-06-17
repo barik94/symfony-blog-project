@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: BARIK
- * Date: 28.03.14
- * Time: 16:50
- */
 
 namespace Blogger\BlogBundle\DataFixtures\ORM;
 

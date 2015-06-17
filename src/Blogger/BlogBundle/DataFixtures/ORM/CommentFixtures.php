@@ -1,5 +1,4 @@
 <?php
-// src/Blogger/BlogBundle/DataFixtures/ORM/CommentFixtures.php
 
 namespace Blogger\BlogBundle\DataFixtures\ORM;
 

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: BARIK
- * Date: 24.03.14
- * Time: 14:47
- */
 
 namespace Blogger\BlogBundle\Entity;
 
@@ -20,8 +14,8 @@ use Symfony\Component\Validator\Constraints\Length;
  * @ORM\Table(name="Category")
  * @ORM\HasLifecycleCallbacks
  */
-class Category {
-
+class Category
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: BARIK
- * Date: 02.04.14
- * Time: 16:00
- */
 
 namespace Blogger\AdminBundle\Controller;
 

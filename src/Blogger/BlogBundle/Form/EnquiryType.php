@@ -1,16 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: BARIK
- * Date: 13.03.14
- * Time: 15:52
- */
 
 namespace Blogger\BlogBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-
 
 class EnquiryType extends AbstractType{
     public function buildForm(FormBuilderInterface $builder, array $options)

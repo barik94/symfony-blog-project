@@ -1,16 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: BARIK
- * Date: 13.03.14
- * Time: 15:52
- */
 
 namespace Blogger\AdminBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-
 
 class EditPostType extends AbstractType
 {

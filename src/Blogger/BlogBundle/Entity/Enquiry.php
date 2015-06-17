@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: BARIK
- * Date: 13.03.14
- * Time: 15:30
- */
 
 namespace Blogger\BlogBundle\Entity;
 
@@ -13,7 +7,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 
-class Enquiry {
+class Enquiry
+{
     protected $name;
 
     protected $email;

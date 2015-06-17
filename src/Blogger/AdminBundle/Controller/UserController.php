@@ -1,19 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: BARIK
- * Date: 03.04.14
- * Time: 17:25
- */
 
 namespace Blogger\AdminBundle\Controller;
 
 use Blogger\AdminBundle\Form\EditUserInfoType;
-
 use Blogger\BlogBundle\Entity\User;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends Controller{

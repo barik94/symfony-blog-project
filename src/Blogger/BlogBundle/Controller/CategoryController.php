@@ -1,15 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: BARIK
- * Date: 25.03.14
- * Time: 9:41
- */
 
 namespace Blogger\BlogBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 
 class CategoryController extends Controller{
 

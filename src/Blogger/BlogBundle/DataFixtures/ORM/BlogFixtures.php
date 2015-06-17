@@ -1,8 +1,6 @@
 <?php
-// src/Blogger/BlogBundle/DataFixtures/ORM/BlogFixtures.php
 
 namespace Blogger\BlogBundle\DataFixtures\ORM;
-
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
