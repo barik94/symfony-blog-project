@@ -9,7 +9,7 @@ class EditCategoryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('catName','text');
+        $builder->add('name','text');
         $builder->add('slug','text');
     }
 

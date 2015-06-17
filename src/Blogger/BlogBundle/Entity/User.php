@@ -55,13 +55,17 @@ class User implements UserInterface, \Serializable
      */
     private $isActive;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Blog", mappedBy="author")
+     */
+    protected $posts;
+
     public function __construct()
     {
         $this->isActive = true;
         $this->roles = new ArrayCollection();
+        $this->roles = new ArrayCollection();
         $this->salt = md5(uniqid(null,true));
-        // may not be needed, see section on salt below
-        // $this->salt = md5(uniqid(null, true));
     }
 
     public function __toString()
@@ -272,6 +276,34 @@ class User implements UserInterface, \Serializable
     public function removeRole(\Blogger\BlogBundle\Entity\Role $roles)
     {
         $this->roles->removeElement($roles);
+    }
+
+    /**
+     * Add post
+     *
+     * @param Blog $post
+     * @return User
+     */
+    public function addPosts(Blog $post)
+    {
+        $this->posts[] = $post;
+
+        return $this;
+    }
+
+    /**
+     * Remove post
+     *
+     * @param Blog $post
+     */
+    public function removePosts(Blog $post)
+    {
+        $this->posts->removeElement($post);
+    }
+
+    public function getPosts()
+    {
+        return $this->posts;
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)

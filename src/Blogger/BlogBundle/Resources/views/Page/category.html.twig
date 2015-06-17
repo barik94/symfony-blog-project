@@ -2,6 +2,6 @@
 {% extends 'BloggerBlogBundle::Page/index.html.twig' %}
 
 {% block body %}
-    <h1>Blogs in category {{ category.catName }}</h1>
+    <h1>Blogs in category {{ category.name }}</h1>
     {{ parent(category) }}
 {% endblock %}

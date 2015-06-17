@@ -7,7 +7,7 @@
         <h3>Managing</h3>
     </header>
 
-    {% set rights = (app.user.username == 'admin') %}
+    {% set rights = (app.user and app.user.username == 'admin') %}
 
 
     <p style="font-size: 19px; font-family: 'Lucida Grande'; font-style: italic">

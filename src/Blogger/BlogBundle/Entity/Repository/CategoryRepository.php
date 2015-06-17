@@ -18,7 +18,7 @@ class CategoryRepository extends EntityRepository
             ->select('c')
             ->where('c.quantOfPosts != 0')
             ->orWhere('c.isDefault = 1')
-            ->addOrderBy('c.catName', 'ASC');
+            ->addOrderBy('c.name', 'ASC');
 
         return $qb->getQuery()
             ->getResult();
@@ -28,7 +28,7 @@ class CategoryRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('c')
             ->select('c')
-            ->addOrderBy('c.catName', 'ASC');
+            ->addOrderBy('c.name', 'ASC');
 
         return $qb->getQuery()
             ->getResult();
@@ -38,7 +38,7 @@ class CategoryRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('c')
             ->select('c')
-            ->addOrderBy('c.catName', 'ASC');
+            ->addOrderBy('c.name', 'ASC');
 
         return $qb->getQuery()
             ->getResult();
@@ -57,8 +57,7 @@ class CategoryRepository extends EntityRepository
         $categories = $this->getAllAndEvenEmptyCategories();
 
         foreach ($categories as $category) {
-            $em = $this->getEntityManager();
-            $category->setQuantOfPosts($em->getRepository('BloggerBlogBundle:Blog')->getQuantityOfPostsInCategory($category));
+            $category->setQuantOfPosts();
         }
 
     }
@@ -67,7 +66,7 @@ class CategoryRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('t')
             ->select('t')
-            ->where('t.catName = :name')
+            ->where('t.name = :name')
             ->orWhere( 't.slug = :slug' )
             ->orWhere('t.id != :id')
             ->setParameter('name', $name)

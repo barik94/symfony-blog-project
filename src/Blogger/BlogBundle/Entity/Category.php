@@ -26,7 +26,7 @@ class Category
     /**
      * @ORM\Column(type="string")
      */
-    protected $catName;
+    protected $name;
 
     /**
      * @ORM\Column(type="integer")
@@ -59,37 +59,36 @@ class Category
     }
 
     /**
-     * Set catName
+     * Set category name
      *
      * @param string $catName
      * @return Category
      */
-    public function setCatName($catName)
+    public function setName($catName)
     {
-        $this->catName = $catName;
+        $this->name = $catName;
 
         return $this;
     }
 
     /**
-     * Get catName
+     * Get category name
      *
      * @return string 
      */
-    public function getCatName()
+    public function getName()
     {
-        return $this->catName;
+        return $this->name;
     }
 
     /**
      * Set quantOfPosts
      *
-     * @param integer $quantOfPosts
      * @return Category
      */
-    public function setQuantOfPosts($quantOfPosts)
+    public function setQuantOfPosts()
     {
-        $this->quantOfPosts = $quantOfPosts;
+        $this->quantOfPosts = count($this->posts);
 
         return $this;
     }
@@ -162,7 +161,7 @@ class Category
 
     public function __toString()
     {
-        return $this->getCatName();
+        return $this->getName();
     }
 
     /**
@@ -200,8 +199,8 @@ class Category
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('catName', new NotBlank());
-        $metadata->addPropertyConstraint('catName', new Length(array('max'=>15)));
+        $metadata->addPropertyConstraint('name', new NotBlank());
+        $metadata->addPropertyConstraint('name', new Length(array('max'=>15)));
 
         $metadata->addPropertyConstraint('slug', new NotBlank());
         $metadata->addPropertyConstraint('slug', new Length(array('max'=>15)));

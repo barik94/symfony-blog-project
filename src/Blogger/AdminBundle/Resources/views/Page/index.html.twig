@@ -6,8 +6,8 @@
         <article class="blog">
             <div class="date"><time datetime="{{ blog.created|date('c') }}">{{ blog.created|date('l, F j, Y') }}</time></div>
 
-            {% set rights = (app.user.username == blog.author or app.user.username == 'admin') %}
-            {% if rights  %}
+            {% set rights = (app.user and (app.user.username == blog.author or app.user.username == 'admin')) %}
+            {% if rights %}
                 <p style="font-size: 18px; font-family: 'Comic Sans MS'">Title: <span style="font-weight: bold">{{ blog.title }}</span> <span style="color: orange; font-style: italic"><a href="{{ path('BloggerAdminBundle_edit_post', { 'blog_id' : blog.id }) }}">(edit)</a></span></p>
             {% else %}
                 <p style="font-size: 18px; font-family: 'Comic Sans MS'">Title: <span style="font-weight: bold">{{ blog.title }}</span></p>

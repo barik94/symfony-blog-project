@@ -12,29 +12,29 @@ class CategoryFixtures extends AbstractFixture implements OrderedFixtureInterfac
     public function load(ObjectManager $manager)
     {
         $category1 = new Category();
-        $category1->setcatName('Sport');
-        $category1->setQuantOfPosts(3);
+        $category1->setName('Sport');
+        $category1->setQuantOfPosts();
         $category1->setSlug('sport');
         $category1->setIsDefault(0);
         $manager->persist($category1);
 
         $category2 = new Category();
-        $category2->setcatName('News');
-        $category2->setQuantOfPosts(1);
+        $category2->setName('News');
+        $category2->setQuantOfPosts();
         $category2->setSlug('news');
         $category2->setIsDefault(1);
         $manager->persist($category2);
 
         $category3 = new Category();
-        $category3->setCatName('Music');
-        $category3->setQuantOfPosts(1);
+        $category3->setName('Music');
+        $category3->setQuantOfPosts();
         $category3->setSlug('music');
         $category3->setIsDefault(0);
         $manager->persist($category3);
 
         $category4 = new Category();
-        $category4->setCatName('Movie');
-        $category4->setQuantOfPosts(0);
+        $category4->setName('Movie');
+        $category4->setQuantOfPosts();
         $category4->setSlug('movie');
         $category4->setIsDefault(0);
         $manager->persist($category4);

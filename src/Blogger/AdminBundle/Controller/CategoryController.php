@@ -80,7 +80,7 @@ class CategoryController extends Controller{
             $em = $this->getDoctrine()
                 ->getManager();
 
-            $isUnique = $em->getRepository('BloggerBlogBundle:Category')->isCategoryUnique($category->getCatName(), $category->getSlug(), $categoryId);
+            $isUnique = $em->getRepository('BloggerBlogBundle:Category')->isCategoryUnique($category->getName(), $category->getSlug(), $categoryId);
 
             if( $isUnique )
             {
@@ -159,16 +159,14 @@ class CategoryController extends Controller{
             $em = $this->getDoctrine()
                 ->getManager();
 
-            $isUnique = $em->getRepository('BloggerBlogBundle:Category')->isCategoryUnique($category->getCatName(), $category->getSlug());
+            $isUnique = $em->getRepository('BloggerBlogBundle:Category')->isCategoryUnique($category->getName(), $category->getSlug());
 
-            if( $isUnique )
-            {
-                $category->setQuantOfPosts(0);
+            if( $isUnique ) {
+                $category->setQuantOfPosts();
                 $em->persist($category);
                 $em->flush();
 
                 return $this->redirect($this->generateUrl('BloggerAdminBundle_homepage'));
-
             }
 
             $this->get('session')->getFlashBag()

@@ -17,7 +17,7 @@
     </header>
     <p>
         {% for category in categories %}
-            <p style="font-size: 19px; font-family: 'Comic Sans MS'; font-style: italic"><a href="{{ path('BloggerBlogBundle_category_show', { 'slug': category.slug }) }}">{{ category.catName }}</a> ({{ category.quantOfPosts }})</p>
+            <p style="font-size: 19px; font-family: 'Comic Sans MS'; font-style: italic"><a href="{{ path('BloggerBlogBundle_category_show', { 'slug': category.slug }) }}">{{ category.name }}</a> ({{ category.quantOfPosts }})</p>
         {% else %}
             <p>There are no full categories</p>
         {% endfor %}

@@ -5,7 +5,10 @@
     {% for category in pagination %}
         <article class="date">
             <div style="font-size: 18px">
-                <span style="font-weight: bold; color: #0000BB">Name:</span> <span style="color: orange"><a href="{{ path('BloggerAdminBundle_edit_concrete_category', {'categoryId' : category.id}) }}">{{ category.catName }}</a>  </span>
+                <span style="font-weight: bold; color: #0000BB">Name:</span>
+                <span style="color: orange">
+                    <a href="{{ path('BloggerAdminBundle_edit_concrete_category', {'categoryId' : category.id}) }}">{{ category.name }}</a>
+                </span>
             </div>
 
             <footer style="font-size: 14px"> <span style="font-weight: bold; color: #0000BB">
