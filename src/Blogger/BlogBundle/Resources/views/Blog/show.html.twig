@@ -24,3 +24,9 @@
         {{ render( controller ('BloggerBlogBundle:Comment:new', { 'blog_id': blog.id } )) }}
     </section>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('bundles/bloggerblog/js/comments.js') }}"></script>
+{% endblock %}

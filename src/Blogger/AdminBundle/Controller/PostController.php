@@ -6,6 +6,7 @@ use Blogger\AdminBundle\Form\EditPostType;
 use Blogger\BlogBundle\Entity\Blog;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class PostController extends Controller
 {
@@ -42,17 +43,15 @@ class PostController extends Controller
         ));
     }
 
-    public function submitEditionAction($blog_id)
+    public function submitEditionAction(Request $request, $blog_id)
     {
-        $em = $this->getDoctrine()
-            ->getManager();
+        $em = $this->getDoctrine()->getManager();
         $blog = $em->getRepository('BloggerBlogBundle:Blog')->find($blog_id);
 
-        $form  = $this->createForm(new EditPostType(), $blog);
-        $form->submit($this->getRequest());
+        $form = $this->createForm(new EditPostType(), $blog);
+        $form->submit($request);
 
         if ($form->isValid()) {
-
             $em = $this->getDoctrine()
                 ->getManager();
 
@@ -93,7 +92,7 @@ class PostController extends Controller
     {
         $blog = new Blog();
 
-        $form  = $this->createForm(new EditPostType(), $blog);
+        $form = $this->createForm(new EditPostType(), $blog);
         $form->submit($this->getRequest());
 
         if ($form->isValid()) {
@@ -119,18 +118,17 @@ class PostController extends Controller
 
     public function deleteAction($blogId)
     {
-        $em =  $this->getDoctrine()
+        $em = $this->getDoctrine()
             ->getManager();
 
         $blog = $em->getRepository('BloggerBlogBundle:Blog')->find($blogId);
 
         $comments = $em->getRepository('BloggerBlogBundle:Comment')->getCommentsForBlog($blogId);
 
-       foreach($comments as $comment )
-       {
-           $em->remove($comment);
-           $em->flush();
-       }
+        foreach ($comments as $comment) {
+            $em->remove($comment);
+            $em->flush();
+        }
 
         $em->remove($blog);
 

@@ -18,11 +18,11 @@ class CommentController extends Controller
 
         $comment = new Comment();
         $comment->setBlog($blog);
-        $form   = $this->createForm(new CommentType(), $comment);
+        $form = $this->createForm(new CommentType(), $comment);
 
         return $this->render('BloggerBlogBundle:Comment:form.html.twig', array(
             'comment' => $comment,
-            'form'   => $form->createView()
+            'form' => $form->createView()
         ));
     }
 

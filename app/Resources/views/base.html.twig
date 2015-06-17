@@ -13,27 +13,6 @@
             <link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet" />
         {% endblock %}
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
-        <script type="text/javascript">
-            function startTime()
-            {
-                var tm=new Date();
-                var h=tm.getHours();
-                var m=tm.getMinutes();
-                var s=tm.getSeconds();
-                m=checkTime(m);
-                s=checkTime(s);
-                document.getElementById('lab').innerHTML=h+":"+m+":"+s;
-                t=setTimeout('startTime()',500);
-            }
-            function checkTime(i)
-            {
-                if (i<10)
-                {
-                    i="0" + i;
-                }
-                return i;
-            }
-        </script>
     </head>
     <body onload="startTime()">
     <section id="wrapper">
@@ -67,11 +46,33 @@
 
         <div id="footer">
             {% block footer %}
-                Symfony2 blog tutorial - created by <a href="https://github.com/dsyph3r">dsyph3r</a>
             {% endblock %}
         </div>
     </section>
 
-    {% block javascripts %}{% endblock %}
+    {% block javascripts %}
+        <script type="text/javascript" src="{{ asset('bundles/bloggerblog/js/jquery-1.11.1.min.js') }}"></script>
+        <script type="text/javascript">
+            function startTime()
+            {
+                var tm=new Date();
+                var h=tm.getHours();
+                var m=tm.getMinutes();
+                var s=tm.getSeconds();
+                m=checkTime(m);
+                s=checkTime(s);
+                document.getElementById('lab').innerHTML=h+":"+m+":"+s;
+                t=setTimeout('startTime()',500);
+            }
+            function checkTime(i)
+            {
+                if (i<10)
+                {
+                    i="0" + i;
+                }
+                return i;
+            }
+        </script>
+    {% endblock %}
     </body>
 </html>
